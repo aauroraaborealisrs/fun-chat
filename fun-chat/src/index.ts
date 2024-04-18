@@ -1,5 +1,6 @@
 import LoginForm from "./components/authentication/login";
 import infoPage from "./components/info/info";
+import mainPage from "./components/main/main"
 
 const enum Pages {
     INFO = "info",
@@ -17,7 +18,11 @@ export default function renderPage (id: string){
     else if (id === Pages.LOGIN){
         const loginForm = new LoginForm();
     }
+    else if (id === Pages.MAIN){
+        const main = new mainPage();
+    }
     else {
+        console.log("else")
         const loginForm = new LoginForm();
     }
 }

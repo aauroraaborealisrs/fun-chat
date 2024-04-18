@@ -35,8 +35,8 @@ function handleSubmit(event: Event) {
 
     if (login && password) {
         createUser(login, password);
-        sessionStorage.setItem('login', login);
-        sessionStorage.setItem('password', password);
+        // sessionStorage.setItem('login', login);
+        // sessionStorage.setItem('password', password);
     } else {
         console.error('Login or password is missing');
     }

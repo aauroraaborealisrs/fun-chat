@@ -80,7 +80,9 @@ socket.onmessage = function(event) {
                 console.log('Server error:', response.payload.error);
             } else {
                 console.log('Authentication is ok:');
-                renderPage('info');
+                sessionStorage.setItem('login', login);
+                sessionStorage.setItem('password', password);
+                renderPage('main');
             }
         }
     }
