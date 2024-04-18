@@ -27,6 +27,7 @@ module.exports = {
     new EslintPlugin({ extensions: ["ts"] }),
   ],
   devServer: {
+    historyApiFallback: true,
     open: true,
     host: "localhost",
   },
