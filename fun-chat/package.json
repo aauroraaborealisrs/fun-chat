@@ -9,7 +9,7 @@
     "format": "prettier --write .",
     "ci:format": "npx prettier --check .",
     "lint": "eslint .",
-    "prepare": "cd .. && husky install fun-chat/.husky"
+    "prepare": "cd .. && husky fun-chat/.husky"
   },
   "keywords": [],
   "author": "",
