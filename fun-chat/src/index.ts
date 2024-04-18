@@ -2,9 +2,9 @@ import LoginForm from "./components/authentication/login";
 import infoPage from "./components/info/info";
 
 const enum Pages {
-    INFO = "info-page",
-    LOGIN = "login-page",
-    MAIN = "main-page"
+    INFO = "info",
+    LOGIN = "login",
+    MAIN = "main"
 }
 
 function renderPage (id: string){
@@ -13,13 +13,11 @@ function renderPage (id: string){
 
     if (id === Pages.INFO){
         const info = new infoPage();
-        console.log('info')
     }
     else if (id === Pages.LOGIN){
         const loginForm = new LoginForm();
     }
     else {
-        console.log('def')
         const loginForm = new LoginForm();
     }
 }

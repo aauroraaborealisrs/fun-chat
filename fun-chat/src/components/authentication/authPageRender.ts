@@ -49,7 +49,7 @@ export default function loginFormRenderer() {
     infoButton.textContent = 'Info';
     form.appendChild(infoButton);
   
-    const appElement = document.getElementById('login-page');
+    const appElement = document.getElementById('login');
     if (appElement) {
       appElement.innerHTML = '';
       appElement.appendChild(form);
