@@ -1,6 +1,7 @@
 import LoginForm from "./components/authentication/login";
 import infoPage from "./components/info/info";
 import mainPage from "./components/main/main"
+import './style.css'
 
 const enum Pages {
     INFO = "info",
@@ -9,8 +10,17 @@ const enum Pages {
 }
 
 export default function renderPage (id: string){
+
+    if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
+        id = Pages.MAIN;
+    } else {
+        id = Pages.LOGIN;
+    }
+
     document.body.innerHTML = '';
     document.body.innerHTML = `<div id="${id}"></div>`;
+
+    history.pushState(null, '', `#${id}`);
 
     if (id === Pages.INFO){
         const info = new infoPage();

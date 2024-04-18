@@ -1,0 +1,79 @@
+.header, .footer {
+    width: 100%;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+
+.main{
+    width: 100%;
+    height: 400px;
+    border: 1px solid black;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.users, .dialogue {
+    width: 80%;
+    border: 1px solid black;
+}
+
+.users{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.users-list{
+    margin: 0;
+    padding: 0;
+    padding-left: 30px;
+}
+
+.dialogue-header {
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-around;
+}
+
+.messages-canvas{
+    display: flex;
+    flex-direction: column;
+    height: 355px;
+    overflow: auto;
+}
+
+.message{
+    border: 1px solid black;
+    padding: 5px 10px;
+    align-self: flex-start;
+    font-size: 10px;
+    margin: 5px;
+}
+
+.message-text{
+    font-size: 1rem;
+    background-color: lightblue;
+}
+
+.m-left{
+    align-self: flex-start;
+}
+
+.m-rigth{
+    align-self: flex-end;
+}
+
+.dialogue-input{
+    padding-top: 10px;
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.dialogue-message{
+    width: 100%;
+}
