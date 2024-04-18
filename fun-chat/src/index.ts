@@ -7,7 +7,7 @@ const enum Pages {
     MAIN = "main"
 }
 
-function renderPage (id: string){
+export default function renderPage (id: string){
     document.body.innerHTML = '';
     document.body.innerHTML = `<div id="${id}"></div>`;
 

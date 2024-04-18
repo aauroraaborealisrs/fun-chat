@@ -1,3 +1,5 @@
+import renderPage from '../../index';
+
 export default function loginFormRenderer() {
     const form = document.createElement('form');
     form.id = 'login-form';
@@ -48,6 +50,16 @@ export default function loginFormRenderer() {
     infoButton.type = 'submit';
     infoButton.textContent = 'Info';
     form.appendChild(infoButton);
+
+    infoButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      renderPage('info'); 
+  });
+
+
+    const serverError = document.createElement('span');
+    serverError.id = 'server-error';
+    form.appendChild(serverError);
   
     const appElement = document.getElementById('login');
     if (appElement) {
