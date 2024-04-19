@@ -1,11 +1,11 @@
-import infoPageRenderer from "./infoPageRenderer"
+import infoPageRenderer from "./infoPageRenderer";
 
-export default class infoPage{
-    constructor() {
-        this.render();
-      }
-    
-      render() {
-        infoPageRenderer();
-      }
+export default class infoPage {
+  constructor() {
+    this.render();
+  }
+
+  render() {
+    infoPageRenderer();
+  }
 }

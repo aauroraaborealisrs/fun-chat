@@ -1,21 +1,20 @@
-import './main.css';
+import "./main.css";
 
 export default function mainRenderer() {
-    const htmlContent = `
+  const htmlContent = `
     <div class="container">
     <header class="header">
-        <span>Пользователь:</span>
+        <span class="header-name">Пользователь:</span>
         <span>Fun Chat</span>
         <div class="buttons">
-            <button>Info</button>
-            <button>Log Out</button>
+            <button id="info-button">Info</button>
+            <button id="logout-button">Log Out</button>
         </div>
     </header>
     <main class="main">
         <section class="users">
-            <input type="text" placeholder="Поиск" class="user-search">
+            <input type="text" placeholder="Поиск" class="user-search" id="user-search">
             <ul class="users-list">
-                <li>user1</li>
             </ul>
         </section>
         <section class="dialogue">
@@ -47,12 +46,41 @@ export default function mainRenderer() {
 </div>
     `;
 
-    const appElement = document.getElementById('main');
+  const appElement = document.getElementById("main");
 
-    if (appElement) {
-        appElement.innerHTML = '';
-        appElement.innerHTML = htmlContent;
-    } else {
-        console.error('Element with ID "main" not found');
+  if (appElement) {
+    appElement.innerHTML = "";
+    appElement.innerHTML = htmlContent;
+    const existingUserLogin = sessionStorage.getItem("login");
+    const userLabelElement = document.querySelector(".header-name");
+    if (userLabelElement) {
+      userLabelElement.textContent += ` ${existingUserLogin}`;
     }
+
+    const userSearchElement = document.getElementById("user-search");
+    if (userSearchElement) {
+      userSearchElement.addEventListener("input", function (e) {
+        const target = e.target as HTMLInputElement;
+        const listItems = document.querySelectorAll(".user_li");
+
+        listItems.forEach((item) => {
+          if (e.target) {
+            const searchValue = (
+              e.target as HTMLInputElement
+            ).value.toLowerCase();
+            const itemText = item.textContent?.toLowerCase() || "";
+            if (itemText.includes(searchValue)) {
+              (item as HTMLElement).style.display = "";
+            } else {
+              (item as HTMLElement).style.display = "none";
+            }
+          }
+        });
+      });
+    } else {
+      console.error('Element with ID "user-search" not found');
+    }
+  } else {
+    console.error('Element with ID "main" not found');
+  }
 }
