@@ -21,35 +21,7 @@ interface ServerResponse {
   };
 }
 
-// export default function createMessage(response: ServerResponse) {
-//  // Проверяем, что payload и message существуют
-//  if (response.payload && response.payload.message) {
-//     const {
-//       payload: {
-//         message: {
-//           id: messageId,
-//           from: messageFrom,
-//           to: messageTo,
-//           text: messageText,
-//           datetime: messageDatetime,
-//           status: {
-//             isDelivered: messageIsDelivered,
-//             isReaded: messageIsReaded,
-//             isEdited: messageIsEdited,
-//           }
-//         }
-//       }
-//     } = response;
-
-//     console.log(`createMessage: ${messageText}`);
-//     // renderMessage(message);
-
-// } else {
-//     console.error('Payload or message is undefined');
-//  }
-// }
-
-export default function createMessage(response: ServerResponse) {
+export function createMessage(response: ServerResponse) {
   if (response.payload && response.payload.message) {
     const {
       payload: { message },
@@ -61,7 +33,13 @@ export default function createMessage(response: ServerResponse) {
   }
 }
 
-function renderMessage(message: MessagePayload) {
+export function renderMessage(message: MessagePayload) {
+  const dialogue = document.querySelector(".messages-canvas");
+  const temp = document.querySelector(".temp") as HTMLElement | null;
+  if (temp && dialogue) {
+    dialogue.removeChild(temp);
+  }
+
   const dialogueNameElement = document.querySelector(
     ".dialogue-name",
   ) as HTMLElement;
@@ -78,7 +56,7 @@ function renderMessage(message: MessagePayload) {
       <span class="message-who-sent">${message.from}</span>
       <span class="message-date">${formattedDate}</span>
       <div class="message-text">${message.text}</div>
-      <span class="message-status">${message.status.isDelivered ? "delivered" : "not delivered"}</span>
+      <span class="message-status">${message.status.isDelivered ? "sent" : "delivered"}</span>
     </div>
  `;
 

@@ -32,10 +32,7 @@ class LoginForm {
       const login = formData.get("login") as string;
       const password = formData.get("password") as string;
 
-      //ПРОХОДЯТ ВАЛИДАЦИЮ КАК НЕФИГ ДЕЛАТЬ
-
       if (checkInputs()) {
-        // checkInputs();
         createUser(login, password);
       } else {
         console.error("Login or password is missing");
@@ -53,10 +50,6 @@ class LoginForm {
       form.addEventListener("submit", handleSubmit);
       form.addEventListener("keydown", handleKeyDown);
     }
-
-    // inputs.forEach((input) => {
-    //   input.addEventListener("input", checkInputs);
-    // });
 
     inputs.forEach((input) => {
       input.addEventListener("input", () => {

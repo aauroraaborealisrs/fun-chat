@@ -1,6 +1,6 @@
 import renderPage from "../../index";
 import nameClick from "./nameClick";
-import createMessage from "./createMessage";
+import { createMessage, renderMessage } from "./createMessage";
 import {
   renderActiveUserList,
   renderInactiveUserList,
@@ -66,6 +66,35 @@ socket.onmessage = (event) => {
     response.payload.message
   ) {
     createMessage(response);
+  }
+
+  interface MessageStatus {
+    isDelivered: boolean;
+    isReaded: boolean;
+    isEdited: boolean;
+  }
+
+  interface MessagePayload {
+    id: string;
+    from: string;
+    to: string;
+    text: string;
+    datetime: number;
+    status: MessageStatus;
+  }
+
+  if (response.type === "MSG_FROM_USER") {
+    if (response.payload.messages.length === 0) {
+      const dialogue = document.querySelector(".messages-canvas");
+      const temp = document.createElement("div");
+      temp.className = "temp";
+      temp.textContent = "Тут ничего пока нет";
+      dialogue?.appendChild(temp);
+    } else {
+      response.payload.messages.forEach((message: MessagePayload) => {
+        renderMessage(message);
+      });
+    }
   }
 
   if (
