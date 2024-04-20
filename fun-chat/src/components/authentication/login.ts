@@ -17,8 +17,9 @@ class LoginForm {
     const inputs: NodeListOf<HTMLInputElement> =
       document.querySelectorAll("#login-form input");
 
-      const submitButton = document.getElementById("submit-button") as HTMLButtonElement;
-
+    const submitButton = document.getElementById(
+      "submit-button",
+    ) as HTMLButtonElement;
 
     const form = document.getElementById("login-form");
 
@@ -31,11 +32,9 @@ class LoginForm {
       const login = formData.get("login") as string;
       const password = formData.get("password") as string;
 
+      //ПРОХОДЯТ ВАЛИДАЦИЮ КАК НЕФИГ ДЕЛАТЬ
 
-      //ПРОХОДЯТ ВАЛИДАЦИЮ КАК НЕФИГ ДЕЛАТЬ 
-      
       if (checkInputs()) {
-
         // checkInputs();
         createUser(login, password);
       } else {
@@ -67,7 +66,7 @@ class LoginForm {
           submitButton.disabled = true;
         }
       });
-   });
+    });
 
     checkInputs();
   }

@@ -1,4 +1,6 @@
 import renderPage from "../../index";
+import nameClick from "./nameClick";
+import createMessage from "./createMessage";
 import {
   renderActiveUserList,
   renderInactiveUserList,
@@ -43,6 +45,7 @@ socket.onmessage = (event) => {
     if (usersList) {
       renderActiveUserList(response.payload.users, usersList as HTMLElement);
     }
+    nameClick();
   }
 
   if (
@@ -54,6 +57,32 @@ socket.onmessage = (event) => {
     if (usersList) {
       renderInactiveUserList(response.payload.users, usersList as HTMLElement);
     }
+    nameClick();
+  }
+
+  if (
+    response.type === "MSG_SEND" &&
+    response.payload &&
+    response.payload.message
+  ) {
+    createMessage(response);
+  }
+
+  if (
+    response.type === "USER_EXTERNAL_LOGOUT" &&
+    response.payload &&
+    response.payload.user
+  ) {
+    const userSpans = document.querySelectorAll(".user_li.user_active");
+
+    userSpans.forEach((span) => {
+      if (span.textContent === response.payload.user.login) {
+        span.className = "user_li user_inactive";
+        console.log(
+          `User ${response.payload.user.login} has been logged out externally and their status is now inactive.`,
+        );
+      }
+    });
   }
 };
 

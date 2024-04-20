@@ -53,7 +53,7 @@ export default function loginFormRenderer() {
 
   infoButton.addEventListener("click", (event) => {
     event.preventDefault();
-    renderPage("main");
+    renderPage("info");
   });
 
   const serverError = document.createElement("span");

@@ -69,7 +69,7 @@ li {
   align-self: flex-start;
 }
 
-.m-rigth {
+.m-right {
   align-self: flex-end;
 }
 
@@ -96,4 +96,16 @@ li {
   color: red;
   margin-right: 5px;
   height: fit-content;
+}
+
+.online-text {
+  color: green;
+}
+
+.offline-text {
+  color: red;
+}
+
+.user_li {
+  cursor: pointer;
 }

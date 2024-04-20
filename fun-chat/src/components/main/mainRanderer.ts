@@ -1,5 +1,6 @@
 import "./main.css";
-
+import renderPage from "../../index";
+import sendMessage from "./sendMessage";
 export default function mainRenderer() {
   const htmlContent = `
     <div class="container">
@@ -19,20 +20,14 @@ export default function mainRenderer() {
         </section>
         <section class="dialogue">
             <div class="dialogue-header">
-                <span class="dialogue-name">name</span>
-                <span class="dialogue-status">online</span>
+                <span class="dialogue-name">Найдите собеседника</span>
+                <span class="dialogue-status"></span>
             </div>
             <div class="messages-canvas">
-                <div class="message m-left">
-                    <span class="message-who-sent">you</span>
-                    <span class="message-date">19.04.2024 19:05:23</span>
-                    <div class="message-text">ssss</div>
-                    <span class="message-status">delivered</span>
-                </div>
             </div>
             <div class="dialogue-input">
                 <input type="text" placeholder="Напишите" class="dialogue-message">
-                <button class="button">Send</button>
+                <button class="button" id="send" disabled>Send</button>
             </div>
         </section>
     </main>
@@ -55,6 +50,46 @@ export default function mainRenderer() {
     const userLabelElement = document.querySelector(".header-name");
     if (userLabelElement) {
       userLabelElement.textContent += ` ${existingUserLogin}`;
+    }
+
+    const infoButton = document.getElementById("info-button");
+    if (infoButton) {
+      infoButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        renderPage("info");
+      });
+    }
+
+    const sendButton = document.getElementById("send") as HTMLButtonElement;
+
+    const dialogueMessageInput = document.querySelector(
+      ".dialogue-message",
+    ) as HTMLInputElement;
+
+    if (dialogueMessageInput && sendButton) {
+      dialogueMessageInput.addEventListener("input", function () {
+        if (dialogueMessageInput.value.trim() !== "") {
+          sendButton.disabled = false;
+        } else {
+          sendButton.disabled = true;
+        }
+      });
+    }
+
+    if (sendButton) {
+      sendButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        const dialogueNameElement = document.querySelector(
+          ".dialogue-name",
+        ) as HTMLElement;
+        const name = dialogueNameElement.textContent as string;
+        const dialogueMessageElement = document.querySelector(
+          ".dialogue-message",
+        ) as HTMLInputElement;
+        const message = dialogueMessageElement.value as string;
+        console.log(message);
+        sendMessage(name, message);
+      });
     }
 
     const userSearchElement = document.getElementById("user-search");
