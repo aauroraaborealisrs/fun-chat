@@ -1,7 +1,6 @@
 import "./login.css";
 import loginFormRenderer from "./authPageRender";
 import { checkInputs } from "./validation/checkInputs";
-import socket from "../api/soсket";
 import createUser from "../api/createUser";
 
 class LoginForm {
@@ -18,11 +17,10 @@ class LoginForm {
     const inputs: NodeListOf<HTMLInputElement> =
       document.querySelectorAll("#login-form input");
 
-    const form = document.getElementById("login-form");
+      const submitButton = document.getElementById("submit-button") as HTMLButtonElement;
 
-    // function handleSubmit(event: Event) {
-    //  event.preventDefault();
-    // }
+
+    const form = document.getElementById("login-form");
 
     function handleSubmit(event: Event) {
       event.preventDefault();
@@ -33,20 +31,17 @@ class LoginForm {
       const login = formData.get("login") as string;
       const password = formData.get("password") as string;
 
-      if (login && password) {
+
+      //ПРОХОДЯТ ВАЛИДАЦИЮ КАК НЕФИГ ДЕЛАТЬ 
+      
+      if (checkInputs()) {
+
+        // checkInputs();
         createUser(login, password);
-        // sessionStorage.setItem('login', login);
-        // sessionStorage.setItem('password', password);
       } else {
         console.error("Login or password is missing");
       }
     }
-
-    // function handleKeyDown(event: KeyboardEvent) {
-    //  if (event.key === 'Enter') {
-    //     handleSubmit(event);
-    //  }
-    // }
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Enter") {
@@ -60,9 +55,19 @@ class LoginForm {
       form.addEventListener("keydown", handleKeyDown);
     }
 
+    // inputs.forEach((input) => {
+    //   input.addEventListener("input", checkInputs);
+    // });
+
     inputs.forEach((input) => {
-      input.addEventListener("input", checkInputs);
-    });
+      input.addEventListener("input", () => {
+        if (checkInputs()) {
+          submitButton.disabled = false;
+        } else {
+          submitButton.disabled = true;
+        }
+      });
+   });
 
     checkInputs();
   }
