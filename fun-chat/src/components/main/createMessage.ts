@@ -21,6 +21,11 @@ interface ServerResponse {
   };
 }
 
+
+function autoScrollToBottom(element: HTMLElement) {
+ element.scrollTop = element.scrollHeight;
+}
+
 export function createMessage(response: ServerResponse) {
   if (response.payload && response.payload.message) {
     const {
@@ -34,7 +39,10 @@ export function createMessage(response: ServerResponse) {
 }
 
 export function renderMessage(message: MessagePayload) {
-  const dialogue = document.querySelector(".messages-canvas");
+  const dialogue = document.querySelector(".messages-canvas") as HTMLElement;
+  if (dialogue) {
+    autoScrollToBottom(dialogue);
+   }
   const temp = document.querySelector(".temp") as HTMLElement | null;
   if (temp && dialogue) {
     dialogue.removeChild(temp);
@@ -48,11 +56,12 @@ export function renderMessage(message: MessagePayload) {
     : "";
   const messageClass = dialogueNameText === message.from ? "m-left" : "m-right";
 
+  const id = message.id;
   const date = new Date(message.datetime);
   const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
   const messageHtml = `
-    <div class="message ${messageClass}">
+    <div class="message ${messageClass}" id= ${id}>
       <span class="message-who-sent">${message.from}</span>
       <span class="message-date">${formattedDate}</span>
       <div class="message-text">${message.text}</div>
@@ -64,4 +73,8 @@ export function renderMessage(message: MessagePayload) {
   if (messagesContainer) {
     messagesContainer.innerHTML += messageHtml;
   }
+
+  if (dialogue) {
+    autoScrollToBottom(dialogue);
+   }
 }

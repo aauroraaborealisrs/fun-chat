@@ -5,6 +5,32 @@ import {
   renderActiveUserList,
   renderInactiveUserList,
 } from "./userListRenderer";
+import {markAsRead} from "./markAsRead";
+
+interface ServerResponse {
+  id: string;
+  type: string;
+  payload: {
+     message: {
+       id: string;
+       from: string;
+       to: string;
+       text: string;
+       datetime: number;
+       status: {
+         isDelivered: boolean;
+         isReaded: boolean;
+         isEdited: boolean;
+       };
+     };
+  };
+ }
+ 
+ let responsesArray: ServerResponse[] = [];
+ 
+
+// let responsesArray = [];
+
 const socket = new WebSocket("ws://localhost:4000");
 
 // Обработчик открытия соединения
@@ -14,12 +40,12 @@ socket.onopen = () => {
 
 // Обработчик получения сообщений
 socket.onmessage = (event) => {
-  console.log("WebSocket message received:", event.data);
+  // console.log("WebSocket message received:", event.data);
 
   // Парсинг полученных данных
   const response = JSON.parse(event.data);
 
-  console.log(response);
+  // console.log(response);
 
   if (
     response.payload &&
@@ -66,6 +92,9 @@ socket.onmessage = (event) => {
     response.payload.message
   ) {
     createMessage(response);
+    responsesArray.push(response);
+    console.log(responsesArray)
+    // markAsRead(responsesArray);
   }
 
   interface MessageStatus {
@@ -94,8 +123,33 @@ socket.onmessage = (event) => {
       response.payload.messages.forEach((message: MessagePayload) => {
         renderMessage(message);
       });
+
+      const dialogue = document.querySelector(".messages-canvas");
+      if (dialogue) {
+       const hr = document.createElement("hr");
+       hr.classList.add("hr-separatop");
+       dialogue.appendChild(hr);
+      //  markAsRead(responsesArray);
+
+      // markAsRead();
+      }
     }
   }
+
+if (response.type === "MSG_READ" && response.payload && response.payload.message) {
+    const messageId = response.payload.message.id;
+
+    const messageElement = document.getElementById(messageId);
+
+    if (messageElement) {
+        const statusElement = messageElement.querySelector('.message-status');
+        if (statusElement) {
+            statusElement.textContent = 'Прочитано';
+        }
+    } else {
+        console.log("Message element not found");
+    }
+}
 
   if (
     response.type === "USER_EXTERNAL_LOGOUT" &&
@@ -113,6 +167,9 @@ socket.onmessage = (event) => {
       }
     });
   }
+
+  // markAsRead(responsesArray);
+
 };
 
 // Обработчик ошибки
@@ -134,3 +191,8 @@ export default function sendRequest(message: string) {
   socket.send(message);
   console.log(message);
 }
+
+
+window.addEventListener('click', () => {
+    markAsRead(responsesArray);
+});

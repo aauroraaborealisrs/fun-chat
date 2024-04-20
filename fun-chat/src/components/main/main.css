@@ -109,3 +109,13 @@ li {
 .user_li {
   cursor: pointer;
 }
+
+.message.m-left .message-status {
+ display: none;
+}
+
+.hr-separatop{
+  border: 1px solid #000;
+  width: 100%;
+  /* visibility: hidden; */
+}
