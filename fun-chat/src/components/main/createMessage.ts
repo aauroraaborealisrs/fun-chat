@@ -138,6 +138,8 @@ export function renderMessage(message: MessagePayload) {
         deleteB.addEventListener("click", function (event) {
           event.stopPropagation();
           console.log("Delete button clicked");
+          deleteButtonClickHandler(message.id);
+
         });
 
         messageDiv.appendChild(newListContainer);
@@ -232,4 +234,24 @@ function editButtonClickHandler(id: string) {
     });
   }
 }
+
+
+function deleteButtonClickHandler(id: string) {
+
+  const request = {
+    id: crypto.randomUUID(),
+    type: "MSG_DELETE",
+    payload: {
+      message: {
+        id: id,
+      },
+    },
+  };
+  sendRequest(JSON.stringify(request));
+
+  const dialogue = document.querySelector(".messages-canvas") as HTMLElement;
+  const messageElement = dialogue.querySelector(`[id="${id}"]`) as HTMLElement;
+  dialogue.removeChild(messageElement);
+}
+
 export { isAutoScrolling };

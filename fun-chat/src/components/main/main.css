@@ -167,3 +167,11 @@ a {
 .message-status {
   margin-right: 5px;
 }
+
+.list-item{
+  cursor: pointer;
+  background-color: honeydew;
+  width: 45px;
+  outline: 1px black solid;
+  padding-left: 5px;
+}
