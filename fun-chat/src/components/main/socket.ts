@@ -193,6 +193,42 @@ export default function sendRequest(message: string) {
 }
 
 
-window.addEventListener('click', () => {
-    markAsRead(responsesArray);
+// window.addEventListener('click', () => {
+//     markAsRead(responsesArray);
+// });
+
+// window.addEventListener('scroll', () => {
+//   markAsRead(responsesArray);
+// });
+
+export { responsesArray };
+
+function waitForElement(selector: string, callback: () => void) {
+  const element = document.querySelector(selector);
+  if (element) {
+      callback();
+  } else {
+      setTimeout(() => {
+          waitForElement(selector, callback);
+      }, 5000); // Повторно проверяем каждые 500 миллисекунд
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  waitForElement('.messages-canvas', () => {
+      const messagesCanvas = document.querySelector('.messages-canvas');
+
+            if(messagesCanvas){
+            //   messagesCanvas.addEventListener('scroll', () => {
+            //     markAsRead(responsesArray);
+            //     console.log('scroll')
+            // });
+
+            messagesCanvas.addEventListener('click', () => {
+              markAsRead(responsesArray);
+              console.log('click')
+            });
+            }
+
+  });
 });

@@ -31,6 +31,11 @@ export function renderActiveUserList(
 
     const li = document.createElement("li");
     li.textContent = `${user.login}`;
+    const userLogin = sessionStorage.getItem("login");
+
+    if(user.login === userLogin){
+      li.classList.add("small");
+    }
     li.classList.add("user_li");
     if (user.isLogined) {
       li.classList.add("user_active");

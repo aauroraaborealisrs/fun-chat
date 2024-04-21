@@ -21,6 +21,8 @@ interface ServerResponse {
   };
 }
 
+let isAutoScrolling = false; // Переменная для отслеживания автоматического пролистывания
+
 
 function autoScrollToBottom(element: HTMLElement) {
  element.scrollTop = element.scrollHeight;
@@ -74,7 +76,12 @@ export function renderMessage(message: MessagePayload) {
     messagesContainer.innerHTML += messageHtml;
   }
 
+
   if (dialogue) {
     autoScrollToBottom(dialogue);
    }
+
 }
+
+export {isAutoScrolling};
+

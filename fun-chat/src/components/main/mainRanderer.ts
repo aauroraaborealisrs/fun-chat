@@ -1,6 +1,9 @@
 import "./main.css";
 import renderPage from "../../index";
 import sendMessage from "./sendMessage";
+import { markAsRead } from "./markAsRead";
+import { responsesArray } from "./socket";
+import { isAutoScrolling } from "./createMessage";
 export default function mainRenderer() {
   const htmlContent = `
     <div class="container">
@@ -19,24 +22,25 @@ export default function mainRenderer() {
             </ul>
         </section>
         <section class="dialogue">
-            <div class="dialogue-header">
+            <div class="dialogue-header hidden">
                 <span class="dialogue-name">Найдите собеседника</span>
                 <span class="dialogue-status"></span>
             </div>
             <div class="messages-canvas">
             </div>
-            <div class="dialogue-input">
+            <div class="dialogue-input hidden">
                 <input type="text" placeholder="Напишите" class="dialogue-message">
                 <button class="button" id="send" disabled>Send</button>
             </div>
         </section>
     </main>
     <footer class="footer">
-        <span>RSSchool</span>
-        <a href="https://github.com/aauroraaborealisrs" target="_blank">
-            <span>Kate Sharai</span>
+        <span class="footer-rss">RSSchool</span>
+        <div class="footer-logo"></div>
+        <a href="https://github.com/aauroraaborealisrs" target="_blank" class="footer-link">
+            <span class="footer-name">Kate Sharai</span>
         </a>
-        <span>2024</span>
+        <span class="footer-year">2024</span>
     </footer>
 </div>
     `;
@@ -88,6 +92,7 @@ export default function mainRenderer() {
         ) as HTMLInputElement;
         const message = dialogueMessageElement.value as string;
         console.log(message);
+        sendButton.disabled = true;
         sendMessage(name, message);
       });
     }
@@ -115,6 +120,50 @@ export default function mainRenderer() {
     } else {
       console.error('Element with ID "user-search" not found');
     }
+
+
+    const messagesCanvas = document.querySelector('.messages-canvas');
+    if(messagesCanvas){
+      let isUserScrolling = false; // Переменная для отслеживания прокрутки пользователя
+
+
+      messagesCanvas.addEventListener('mousedown', () => {
+        isUserScrolling = true;
+    });
+
+    messagesCanvas.addEventListener('mouseup', () => {
+        isUserScrolling = false;
+    });
+
+    messagesCanvas.addEventListener('touchstart', () => {
+      isUserScrolling = true;
+  });
+
+  messagesCanvas.addEventListener('touchend', () => {
+      isUserScrolling = false;
+  });
+
+//   messagesCanvas.addEventListener('wheel', () => {
+//     console.log("weeeeeeeeeeeeeeeeeeeeel")
+//     isUserScrolling = true;
+// });
+
+        messagesCanvas.addEventListener('scroll', () => {
+          if(isUserScrolling) {
+            markAsRead(responsesArray);
+            console.log('scroll')
+          }
+            // markAsRead(responsesArray);
+            // console.log('scroll')
+      });
+
+      messagesCanvas.addEventListener('click', () => {
+        markAsRead(responsesArray);
+        console.log('click')
+      });
+      }
+
+
   } else {
     console.error('Element with ID "main" not found');
   }

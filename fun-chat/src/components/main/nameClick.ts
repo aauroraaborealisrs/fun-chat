@@ -54,6 +54,12 @@ export default function nameClick() {
         dialoguehistorycanvas.innerHTML = "";
       }
 
+      const hiddenElements = document.querySelectorAll('.hidden');
+      
+      hiddenElements.forEach(element => {
+       element.classList.remove('hidden');
+      });
+
       console.log("User list item clicked:", e.target);
     });
   });
