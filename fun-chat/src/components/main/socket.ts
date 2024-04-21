@@ -5,29 +5,28 @@ import {
   renderActiveUserList,
   renderInactiveUserList,
 } from "./userListRenderer";
-import {markAsRead} from "./markAsRead";
+import { markAsRead } from "./markAsRead";
 
 interface ServerResponse {
   id: string;
   type: string;
   payload: {
-     message: {
-       id: string;
-       from: string;
-       to: string;
-       text: string;
-       datetime: number;
-       status: {
-         isDelivered: boolean;
-         isReaded: boolean;
-         isEdited: boolean;
-       };
-     };
+    message: {
+      id: string;
+      from: string;
+      to: string;
+      text: string;
+      datetime: number;
+      status: {
+        isDelivered: boolean;
+        isReaded: boolean;
+        isEdited: boolean;
+      };
+    };
   };
- }
- 
- let responsesArray: ServerResponse[] = [];
- 
+}
+
+let responsesArray: ServerResponse[] = [];
 
 // let responsesArray = [];
 
@@ -40,12 +39,8 @@ socket.onopen = () => {
 
 // Обработчик получения сообщений
 socket.onmessage = (event) => {
-  // console.log("WebSocket message received:", event.data);
-
   // Парсинг полученных данных
   const response = JSON.parse(event.data);
-
-  // console.log(response);
 
   if (
     response.payload &&
@@ -86,22 +81,20 @@ socket.onmessage = (event) => {
   //   // nameClick();
   // }
 
-  if (
-    response.payload &&
-    response.payload.users
-  ) {
+  if (response.payload && response.payload.users) {
     const usersList = document.querySelector(".users-list");
     if (usersList) {
       if (response.type === "USER_ACTIVE") {
         renderActiveUserList(response.payload.users, usersList as HTMLElement);
       } else if (response.type === "USER_INACTIVE") {
-        renderInactiveUserList(response.payload.users, usersList as HTMLElement);
+        renderInactiveUserList(
+          response.payload.users,
+          usersList as HTMLElement,
+        );
       }
-      
     }
     nameClick();
   }
-  
 
   if (
     response.type === "MSG_SEND" &&
@@ -110,7 +103,6 @@ socket.onmessage = (event) => {
   ) {
     createMessage(response);
     responsesArray.push(response);
-    console.log(responsesArray)
     // markAsRead(responsesArray);
   }
 
@@ -132,16 +124,14 @@ socket.onmessage = (event) => {
   if (response.type === "MSG_FROM_USER") {
     if (response.payload.messages.length === 0) {
       const dialogue = document.querySelector(".messages-canvas");
-      // Проверяем, существует ли уже элемент с классом "temp"
-const existingTempElement = dialogue?.querySelector('.temp');
+      const existingTempElement = dialogue?.querySelector(".temp");
 
-// Если элемент с классом "temp" еще не существует, создаем и добавляем его
-if (!existingTempElement) {
-    const temp = document.createElement("div");
-    temp.className = "temp";
-    temp.textContent = "Тут ничего пока нет";
-    dialogue?.appendChild(temp);
-}
+      if (!existingTempElement) {
+        const temp = document.createElement("div");
+        temp.className = "temp";
+        temp.textContent = "Тут ничего пока нет";
+        dialogue?.appendChild(temp);
+      }
 
       // const temp = document.createElement("div");
       // temp.className = "temp";
@@ -154,31 +144,57 @@ if (!existingTempElement) {
 
       const dialogue = document.querySelector(".messages-canvas");
       if (dialogue) {
-       const hr = document.createElement("hr");
-       hr.classList.add("hr-separatop");
-       dialogue.appendChild(hr);
-      //  markAsRead(responsesArray);
+        const hr = document.createElement("hr");
+        hr.classList.add("hr-separatop");
+        dialogue.appendChild(hr);
+        //  markAsRead(responsesArray);
 
-      // markAsRead();
+        // markAsRead();
       }
     }
+
+    //раздел с количеством сообщений
+
+    let unreadMessagesCount = 0; 
+
+    response.payload.messages.forEach((message: MessagePayload) => {
+      if (
+        !message.status.isReaded &&
+        message.to == sessionStorage.getItem("login")
+      ) {
+        // Проверяем, если isRead равно false
+        unreadMessagesCount++; // Увеличиваем счетчик
+      }
+    });
+
+    console.log(`Количество сообщений с isRead: false: ${unreadMessagesCount}`);
   }
 
-if (response.type === "MSG_READ" && response.payload && response.payload.message) {
+  if (
+    response.type === "MSG_READ" &&
+    response.payload &&
+    response.payload.message
+  ) {
     const messageId = response.payload.message.id;
 
     const messageElement = document.getElementById(messageId);
 
     if (messageElement) {
-        const statusElement = messageElement.querySelector('.message-status');
-        if (statusElement) {
-            statusElement.textContent = 'Прочитано';
-        }
+      const statusElement = messageElement.querySelector(".message-status");
+      if (statusElement) {
+        statusElement.textContent = "Прочитано";
+      }
     } else {
-        console.log("Message element not found");
+      console.log("Message element not found");
     }
-}
+  }
 
+  if (response.type === "MSG_EDIT") {
+    const dialogueMessageElement = document.querySelector(
+      ".dialogue-message",
+    ) as HTMLInputElement;
+    dialogueMessageElement.value = "";
+  }
   if (
     response.type === "USER_EXTERNAL_LOGOUT" &&
     response.payload &&
@@ -197,7 +213,6 @@ if (response.type === "MSG_READ" && response.payload && response.payload.message
   }
 
   // markAsRead(responsesArray);
-
 };
 
 // Обработчик ошибки
@@ -217,9 +232,7 @@ socket.onclose = (event) => {
 
 export default function sendRequest(message: string) {
   socket.send(message);
-  console.log(message);
 }
-
 
 // window.addEventListener('click', () => {
 //     markAsRead(responsesArray);
@@ -234,29 +247,26 @@ export { responsesArray };
 function waitForElement(selector: string, callback: () => void) {
   const element = document.querySelector(selector);
   if (element) {
-      callback();
+    callback();
   } else {
-      setTimeout(() => {
-          waitForElement(selector, callback);
-      }, 5000); // Повторно проверяем каждые 500 миллисекунд
+    setTimeout(() => {
+      waitForElement(selector, callback);
+    }, 5000);
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  waitForElement('.messages-canvas', () => {
-      const messagesCanvas = document.querySelector('.messages-canvas');
+document.addEventListener("DOMContentLoaded", () => {
+  waitForElement(".messages-canvas", () => {
+    const messagesCanvas = document.querySelector(".messages-canvas");
 
-            if(messagesCanvas){
-            //   messagesCanvas.addEventListener('scroll', () => {
-            //     markAsRead(responsesArray);
-            //     console.log('scroll')
-            // });
+    if (messagesCanvas) {
+      //   messagesCanvas.addEventListener('scroll', () => {
+      //     markAsRead(responsesArray);
+      // });
 
-            messagesCanvas.addEventListener('click', () => {
-              markAsRead(responsesArray);
-              console.log('click')
-            });
-            }
-
+      messagesCanvas.addEventListener("click", () => {
+        markAsRead(responsesArray);
+      });
+    }
   });
 });

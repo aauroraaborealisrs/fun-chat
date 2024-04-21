@@ -1,8 +1,5 @@
 import sendRequest from "./socket";
 export default function sendMessage(name: string, messsage: string) {
-  console.log("sent");
-  console.log(`name ${name}, mes ${messsage}`);
-
   const dialogueMessageElement = document.querySelector(
     ".dialogue-message",
   ) as HTMLInputElement;
@@ -18,8 +15,6 @@ export default function sendMessage(name: string, messsage: string) {
       },
     },
   };
-
-  console.log(request);
 
   sendRequest(JSON.stringify(request));
 }

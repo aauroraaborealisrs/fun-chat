@@ -24,8 +24,6 @@ export default class MainPage {
       payload: null,
     };
 
-    console.log(request);
-
     sendMessage(JSON.stringify(request));
   }
 
@@ -35,8 +33,6 @@ export default class MainPage {
       type: "USER_INACTIVE",
       payload: null,
     };
-
-    console.log(request);
 
     sendMessage(JSON.stringify(request));
   }

@@ -31,6 +31,7 @@ export default function mainRenderer() {
             <div class="dialogue-input hidden">
                 <input type="text" placeholder="Напишите" class="dialogue-message">
                 <button class="button" id="send" disabled>Send</button>
+                <button class="button" id="edit" disabled>Edit</button>
             </div>
         </section>
     </main>
@@ -71,8 +72,10 @@ export default function mainRenderer() {
     ) as HTMLInputElement;
 
     if (dialogueMessageInput && sendButton) {
+      const editElement = document.getElementById("edit") as HTMLButtonElement;
+
       dialogueMessageInput.addEventListener("input", function () {
-        if (dialogueMessageInput.value.trim() !== "") {
+        if (dialogueMessageInput.value.trim() !== "" && editElement.disabled) {
           sendButton.disabled = false;
         } else {
           sendButton.disabled = true;
@@ -93,7 +96,6 @@ export default function mainRenderer() {
           ".dialogue-message",
         ) as HTMLInputElement;
         const message = dialogueMessageElement.value as string;
-        console.log(message);
         sendButton.disabled = true;
         sendMessage(name, message);
       });
@@ -123,51 +125,42 @@ export default function mainRenderer() {
       console.error('Element with ID "user-search" not found');
     }
 
-
-    const messagesCanvas = document.querySelector('.messages-canvas');
-    if(messagesCanvas){
+    const messagesCanvas = document.querySelector(".messages-canvas");
+    if (messagesCanvas) {
       let isUserScrolling = false; // Переменная для отслеживания прокрутки пользователя
 
-
-      messagesCanvas.addEventListener('mousedown', () => {
+      messagesCanvas.addEventListener("mousedown", () => {
         isUserScrolling = true;
-    });
+      });
 
-    messagesCanvas.addEventListener('mouseup', () => {
+      messagesCanvas.addEventListener("mouseup", () => {
         isUserScrolling = false;
-    });
-
-    messagesCanvas.addEventListener('touchstart', () => {
-      isUserScrolling = true;
-  });
-
-  messagesCanvas.addEventListener('touchend', () => {
-      isUserScrolling = false;
-  });
-
-  messagesCanvas.addEventListener('wheel', () => {
-    console.log("weeeeeeeeeeeeeeeeeeeeel")
-    markAsRead(responsesArray);
-
-    isUserScrolling = true;
-});
-
-        messagesCanvas.addEventListener('scroll', () => {
-          if(isUserScrolling) {
-            markAsRead(responsesArray);
-            console.log('scroll')
-          }
-            // markAsRead(responsesArray);
-            // console.log('scroll')
       });
 
-      messagesCanvas.addEventListener('click', () => {
+      messagesCanvas.addEventListener("touchstart", () => {
+        isUserScrolling = true;
+      });
+
+      messagesCanvas.addEventListener("touchend", () => {
+        isUserScrolling = false;
+      });
+
+      messagesCanvas.addEventListener("wheel", () => {
         markAsRead(responsesArray);
-        console.log('click')
+
+        isUserScrolling = true;
       });
-      }
 
+      messagesCanvas.addEventListener("scroll", () => {
+        if (isUserScrolling) {
+          markAsRead(responsesArray);
+        }
+      });
 
+      messagesCanvas.addEventListener("click", () => {
+        markAsRead(responsesArray);
+      });
+    }
   } else {
     console.error('Element with ID "main" not found');
   }

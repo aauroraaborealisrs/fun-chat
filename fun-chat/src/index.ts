@@ -31,7 +31,6 @@ export default function renderPage(id: string) {
   } else if (id === Pages.MAIN) {
     const main = new mainPage();
   } else {
-    console.log("else");
     const loginForm = new LoginForm();
   }
 }

@@ -20,8 +20,6 @@ function checkInputs(): boolean {
     }
   });
 
-  console.log(allValid);
-
   return allValid;
 }
 

@@ -1,16 +1,13 @@
 import sendRequest from "./socket";
 
 function autoScrollToBottom(element: HTMLElement) {
- element.scrollTop = element.scrollHeight;
+  element.scrollTop = element.scrollHeight;
 }
 
 export default function nameClick() {
   const listItems = document.querySelectorAll(".user_li");
-  console.log(listItems)
   listItems.forEach((item) => {
-    
-    if (!item.hasAttribute('data-listener')) {
-
+    if (!item.hasAttribute("data-listener")) {
       item.addEventListener("click", function (e) {
         if (e.target) {
           const userName = (e.target as HTMLElement).textContent;
@@ -21,21 +18,24 @@ export default function nameClick() {
           if (dialogueNameElement) {
             dialogueNameElement.textContent = userName;
           }
-  
+
           const dialogueStatusElement =
             document.querySelector(".dialogue-status");
           if (dialogueStatusElement) {
-            dialogueStatusElement.classList.remove("online-text", "offline-text");
-  
+            dialogueStatusElement.classList.remove(
+              "online-text",
+              "offline-text",
+            );
+
             if (isActive) {
               dialogueStatusElement.classList.add("online-text");
             } else {
               dialogueStatusElement.classList.add("offline-text");
             }
-  
+
             dialogueStatusElement.textContent = isActive ? "online" : "offline";
           }
-  
+
           const request = {
             id: crypto.randomUUID(),
             type: "MSG_FROM_USER",
@@ -45,30 +45,25 @@ export default function nameClick() {
               },
             },
           };
-  
-          console.log(request);
-  
+
           sendRequest(JSON.stringify(request));
         }
-  
+
         const dialoguehistorycanvas = document.querySelector(
           ".messages-canvas",
         ) as HTMLElement;
         if (dialoguehistorycanvas) {
           dialoguehistorycanvas.innerHTML = "";
         }
-  
-        const hiddenElements = document.querySelectorAll('.hidden');
-        
-        hiddenElements.forEach(element => {
-         element.classList.remove('hidden');
+
+        const hiddenElements = document.querySelectorAll(".hidden");
+
+        hiddenElements.forEach((element) => {
+          element.classList.remove("hidden");
         });
-  
-        console.log("User list item clicked:", e.target);
       });
 
-      item.setAttribute('data-listener', 'true');
-
+      item.setAttribute("data-listener", "true");
     }
 
     // item.addEventListener("click", function (e) {
@@ -106,8 +101,6 @@ export default function nameClick() {
     //       },
     //     };
 
-    //     console.log(request);
-
     //     sendRequest(JSON.stringify(request));
     //   }
 
@@ -119,14 +112,11 @@ export default function nameClick() {
     //   }
 
     //   const hiddenElements = document.querySelectorAll('.hidden');
-      
+
     //   hiddenElements.forEach(element => {
     //    element.classList.remove('hidden');
     //   });
 
-    //   console.log("User list item clicked:", e.target);
     // });
   });
 }
-
-
