@@ -139,7 +139,6 @@ export function renderMessage(message: MessagePayload) {
           event.stopPropagation();
           console.log("Delete button clicked");
           deleteButtonClickHandler(message.id);
-
         });
 
         messageDiv.appendChild(newListContainer);
@@ -204,7 +203,6 @@ function editButtonClickHandler(id: string) {
       ) as HTMLInputElement;
       if (dialogueMessageInput.value.trim() == "" && editElement.disabled) {
         sendElement.disabled = false;
-        console.log("я в createMess");
       }
       const dialogueMessageElement = document.querySelector(
         ".dialogue-message",
@@ -235,9 +233,7 @@ function editButtonClickHandler(id: string) {
   }
 }
 
-
 function deleteButtonClickHandler(id: string) {
-
   const request = {
     id: crypto.randomUUID(),
     type: "MSG_DELETE",

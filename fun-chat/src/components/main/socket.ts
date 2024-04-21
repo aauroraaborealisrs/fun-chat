@@ -28,8 +28,6 @@ interface ServerResponse {
 
 let responsesArray: ServerResponse[] = [];
 
-// let responsesArray = [];
-
 const socket = new WebSocket("ws://localhost:4000");
 
 // Обработчик открытия соединения
@@ -56,30 +54,6 @@ socket.onmessage = (event) => {
       serverErrorElement.textContent = response.payload.error;
     }
   }
-
-  // if (
-  //   response.type === "USER_ACTIVE" &&
-  //   response.payload &&
-  //   response.payload.users
-  // ) {
-  //   const usersList = document.querySelector(".users-list");
-  //   if (usersList) {
-  //     renderActiveUserList(response.payload.users, usersList as HTMLElement);
-  //   }
-  //   nameClick();
-  // }
-
-  // if (
-  //   response.type === "USER_INACTIVE" &&
-  //   response.payload &&
-  //   response.payload.users
-  // ) {
-  //   const usersList = document.querySelector(".users-list");
-  //   if (usersList) {
-  //     renderInactiveUserList(response.payload.users, usersList as HTMLElement);
-  //   }
-  //   // nameClick();
-  // }
 
   if (response.payload && response.payload.users) {
     const usersList = document.querySelector(".users-list");
@@ -132,11 +106,6 @@ socket.onmessage = (event) => {
         temp.textContent = "Тут ничего пока нет";
         dialogue?.appendChild(temp);
       }
-
-      // const temp = document.createElement("div");
-      // temp.className = "temp";
-      // temp.textContent = "Тут ничего пока нет";
-      // dialogue?.appendChild(temp);
     } else {
       response.payload.messages.forEach((message: MessagePayload) => {
         renderMessage(message);
@@ -155,7 +124,7 @@ socket.onmessage = (event) => {
 
     //раздел с количеством сообщений
 
-    let unreadMessagesCount = 0; 
+    let unreadMessagesCount = 0;
 
     response.payload.messages.forEach((message: MessagePayload) => {
       if (
@@ -210,6 +179,12 @@ socket.onmessage = (event) => {
         );
       }
     });
+  }
+
+  if (response.type === "USER_LOGOUT") {
+    sessionStorage.removeItem("login");
+    sessionStorage.removeItem("password");
+    renderPage("login");
   }
 
   // markAsRead(responsesArray);

@@ -127,10 +127,6 @@ li {
   color: red;
 }
 
-.user_li {
-  cursor: pointer;
-}
-
 .message.m-left .message-status {
   display: none;
 }
@@ -168,10 +164,17 @@ a {
   margin-right: 5px;
 }
 
-.list-item{
+.list-item {
   cursor: pointer;
   background-color: honeydew;
   width: 45px;
   outline: 1px black solid;
   padding-left: 5px;
+}
+
+.user_li {
+  cursor: pointer;
+  overflow: hidden; /* Скрывает текст, выходящий за границы */
+  text-overflow: ellipsis; /* Добавляет многоточие в конце обрезанного текста */
+  white-space: nowrap; /* Предотвращает перенос текста на новую строку */
 }

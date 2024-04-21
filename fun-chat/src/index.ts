@@ -10,13 +10,6 @@ const enum Pages {
 }
 
 export default function renderPage(id: string) {
-  // if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
-  //     id = Pages.MAIN;
-
-  // } else {
-  //     id = Pages.LOGIN;
-  // }
-
   let login = sessionStorage.getItem("login") as string;
 
   document.body.innerHTML = "";
@@ -28,7 +21,7 @@ export default function renderPage(id: string) {
     const info = new infoPage();
   } else if (id === Pages.LOGIN) {
     const loginForm = new LoginForm();
-  } else if (id === Pages.MAIN) {
+  } else if (id === Pages.MAIN /*&& sessionStorage.getItem('login')*/) {
     const main = new mainPage();
   } else {
     const loginForm = new LoginForm();
@@ -36,6 +29,12 @@ export default function renderPage(id: string) {
 }
 
 renderPage(Pages.LOGIN);
+
+// if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
+//   renderPage(Pages.MAIN);
+// } else {
+//   renderPage(Pages.LOGIN);
+// }
 
 function enableRouteChange() {
   window.addEventListener("hashchange", () => {

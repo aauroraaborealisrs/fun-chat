@@ -3,6 +3,7 @@ import renderPage from "../../index";
 import sendMessage from "./sendMessage";
 import { markAsRead } from "./markAsRead";
 import { responsesArray } from "./socket";
+import sendRequest from "./socket";
 import { isAutoScrolling } from "./createMessage";
 export default function mainRenderer() {
   const htmlContent = `
@@ -22,11 +23,11 @@ export default function mainRenderer() {
             </ul>
         </section>
         <section class="dialogue">
-            <div class="dialogue-header hidden">
-                <span class="dialogue-name">Найдите собеседника</span>
+            <div class="dialogue-header">
+                <span class="dialogue-name">Тут ничего нет. Найдите собеседника из списка слева</span>
                 <span class="dialogue-status"></span>
             </div>
-            <div class="messages-canvas">
+            <div class="messages-canvas hidden">
             </div>
             <div class="dialogue-input hidden">
                 <input type="text" placeholder="Напишите" class="dialogue-message">
@@ -65,6 +66,27 @@ export default function mainRenderer() {
       });
     }
 
+    const logoutButton = document.getElementById("logout-button");
+    if (logoutButton) {
+      logoutButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("logout");
+        const login = sessionStorage.getItem("login");
+        const password = sessionStorage.getItem("password");
+        const request = {
+          id: crypto.randomUUID(),
+          type: "USER_LOGOUT",
+          payload: {
+            user: {
+              login: `${login}`,
+              password: `${password}`,
+            },
+          },
+        };
+        sendRequest(JSON.stringify(request));
+      });
+    }
+
     const sendButton = document.getElementById("send") as HTMLButtonElement;
 
     const dialogueMessageInput = document.querySelector(
@@ -83,22 +105,58 @@ export default function mainRenderer() {
       });
     }
 
+    // if (sendButton) {
+    //   sendButton.addEventListener("click", (event) => {
+    //     event.preventDefault();
+    //     markAsRead(responsesArray);
+
+    //     const dialogueNameElement = document.querySelector(
+    //       ".dialogue-name",
+    //     ) as HTMLElement;
+    //     const name = dialogueNameElement.textContent as string;
+    //     const dialogueMessageElement = document.querySelector(
+    //       ".dialogue-message",
+    //     ) as HTMLInputElement;
+    //     const message = dialogueMessageElement.value as string;
+    //     sendButton.disabled = true;
+    //     sendMessage(name, message);
+    //   });
+    // }
+
     if (sendButton) {
       sendButton.addEventListener("click", (event) => {
         event.preventDefault();
-        markAsRead(responsesArray);
+        sendTest();
+      });
+    }
 
-        const dialogueNameElement = document.querySelector(
-          ".dialogue-name",
-        ) as HTMLElement;
-        const name = dialogueNameElement.textContent as string;
-        const dialogueMessageElement = document.querySelector(
-          ".dialogue-message",
-        ) as HTMLInputElement;
-        const message = dialogueMessageElement.value as string;
+    const dialogueMessageElement = document.querySelector(
+      ".dialogue-message",
+    ) as HTMLInputElement;
+
+    if (dialogueMessageElement) {
+      dialogueMessageElement.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          sendTest();
+        }
+      });
+    }
+
+    function sendTest() {
+      markAsRead(responsesArray);
+
+      const dialogueNameElement = document.querySelector(
+        ".dialogue-name",
+      ) as HTMLElement;
+      const name = dialogueNameElement.textContent as string;
+
+      const message = dialogueMessageElement.value.trim();
+
+      if (message !== "") {
         sendButton.disabled = true;
         sendMessage(name, message);
-      });
+      }
     }
 
     const userSearchElement = document.getElementById("user-search");
