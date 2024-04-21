@@ -62,29 +62,46 @@ socket.onmessage = (event) => {
     }
   }
 
-  if (
-    response.type === "USER_ACTIVE" &&
-    response.payload &&
-    response.payload.users
-  ) {
-    const usersList = document.querySelector(".users-list");
-    if (usersList) {
-      renderActiveUserList(response.payload.users, usersList as HTMLElement);
-    }
-    nameClick();
-  }
+  // if (
+  //   response.type === "USER_ACTIVE" &&
+  //   response.payload &&
+  //   response.payload.users
+  // ) {
+  //   const usersList = document.querySelector(".users-list");
+  //   if (usersList) {
+  //     renderActiveUserList(response.payload.users, usersList as HTMLElement);
+  //   }
+  //   nameClick();
+  // }
+
+  // if (
+  //   response.type === "USER_INACTIVE" &&
+  //   response.payload &&
+  //   response.payload.users
+  // ) {
+  //   const usersList = document.querySelector(".users-list");
+  //   if (usersList) {
+  //     renderInactiveUserList(response.payload.users, usersList as HTMLElement);
+  //   }
+  //   // nameClick();
+  // }
 
   if (
-    response.type === "USER_INACTIVE" &&
     response.payload &&
     response.payload.users
   ) {
     const usersList = document.querySelector(".users-list");
     if (usersList) {
-      renderInactiveUserList(response.payload.users, usersList as HTMLElement);
+      if (response.type === "USER_ACTIVE") {
+        renderActiveUserList(response.payload.users, usersList as HTMLElement);
+      } else if (response.type === "USER_INACTIVE") {
+        renderInactiveUserList(response.payload.users, usersList as HTMLElement);
+      }
+      
     }
     nameClick();
   }
+  
 
   if (
     response.type === "MSG_SEND" &&
@@ -115,10 +132,21 @@ socket.onmessage = (event) => {
   if (response.type === "MSG_FROM_USER") {
     if (response.payload.messages.length === 0) {
       const dialogue = document.querySelector(".messages-canvas");
-      const temp = document.createElement("div");
-      temp.className = "temp";
-      temp.textContent = "Тут ничего пока нет";
-      dialogue?.appendChild(temp);
+      // Проверяем, существует ли уже элемент с классом "temp"
+const existingTempElement = dialogue?.querySelector('.temp');
+
+// Если элемент с классом "temp" еще не существует, создаем и добавляем его
+if (!existingTempElement) {
+    const temp = document.createElement("div");
+    temp.className = "temp";
+    temp.textContent = "Тут ничего пока нет";
+    dialogue?.appendChild(temp);
+}
+
+      // const temp = document.createElement("div");
+      // temp.className = "temp";
+      // temp.textContent = "Тут ничего пока нет";
+      // dialogue?.appendChild(temp);
     } else {
       response.payload.messages.forEach((message: MessagePayload) => {
         renderMessage(message);

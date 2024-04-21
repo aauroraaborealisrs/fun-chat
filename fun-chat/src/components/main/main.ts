@@ -1,7 +1,6 @@
 import mainRenderer from "./mainRanderer";
 import { renderActiveUserList } from "./userListRenderer";
 import sendMessage from "./socket";
-import nameClick from "./nameClick";
 interface User {
   login: string;
   isLogined: boolean;

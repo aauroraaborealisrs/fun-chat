@@ -83,6 +83,8 @@ export default function mainRenderer() {
     if (sendButton) {
       sendButton.addEventListener("click", (event) => {
         event.preventDefault();
+        markAsRead(responsesArray);
+
         const dialogueNameElement = document.querySelector(
           ".dialogue-name",
         ) as HTMLElement;
@@ -143,10 +145,12 @@ export default function mainRenderer() {
       isUserScrolling = false;
   });
 
-//   messagesCanvas.addEventListener('wheel', () => {
-//     console.log("weeeeeeeeeeeeeeeeeeeeel")
-//     isUserScrolling = true;
-// });
+  messagesCanvas.addEventListener('wheel', () => {
+    console.log("weeeeeeeeeeeeeeeeeeeeel")
+    markAsRead(responsesArray);
+
+    isUserScrolling = true;
+});
 
         messagesCanvas.addEventListener('scroll', () => {
           if(isUserScrolling) {
