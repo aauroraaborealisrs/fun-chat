@@ -70,7 +70,6 @@ export default function mainRenderer() {
     if (logoutButton) {
       logoutButton.addEventListener("click", (event) => {
         event.preventDefault();
-        console.log("logout");
         const login = sessionStorage.getItem("login");
         const password = sessionStorage.getItem("password");
         const request = {

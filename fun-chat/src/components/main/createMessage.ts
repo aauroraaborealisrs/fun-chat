@@ -84,8 +84,23 @@ export function renderMessage(message: MessagePayload) {
 
   const messageStatus = document.createElement("span");
   messageStatus.className = "message-status";
-  messageStatus.textContent = message.status.isDelivered ? "sent" : "delivered";
-  messageStatus.textContent = message.status.isReaded ? "readed" : "sent";
+  // messageStatus.textContent = message.status.isReaded ? "readed" : " ";
+  // messageStatus.textContent = message.status.isDelivered ? "sent" : "delivered";
+  let messageStatusText;
+
+switch (true) {
+ case message.status.isReaded:
+    messageStatusText = "readed";
+    break;
+ case message.status.isDelivered:
+    messageStatusText = "sent";
+    break;
+ default:
+    messageStatusText = "delivered";
+}
+
+messageStatus.textContent = messageStatusText;
+
 
   messageDiv.appendChild(messageStatus);
 
@@ -123,7 +138,6 @@ export function renderMessage(message: MessagePayload) {
         editB.addEventListener("click", function (event) {
           event.stopPropagation();
           editButtonClickHandler(message.id);
-          console.log("Edit button clicked");
           const sendElement = document.getElementById(
             "send",
           ) as HTMLButtonElement;
@@ -139,7 +153,6 @@ export function renderMessage(message: MessagePayload) {
 
         deleteB.addEventListener("click", function (event) {
           event.stopPropagation();
-          console.log("Delete button clicked");
           deleteButtonClickHandler(message.id);
         });
 
@@ -179,7 +192,6 @@ function editButtonClickHandler(id: string) {
   }
 
   const messageText = messageTextElement.textContent;
-  console.log(`Message text: ${messageText}`);
 
   const dialogueMessageElement = document.querySelector(
     ".dialogue-message",
@@ -230,7 +242,6 @@ function editButtonClickHandler(id: string) {
         messageEdited.textContent = "edited";
       }
 
-      console.log("editElement button clicked");
     });
   }
 }

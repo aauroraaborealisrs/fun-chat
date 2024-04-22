@@ -60,7 +60,6 @@ socket.onmessage = (event) => {
   const response = JSON.parse(event.data);
 
   if (response.type === "ERROR" && response.payload && response.payload.error) {
-    console.log('ERROR')
     const serverErrorElement = document.getElementById("server-error");
     if (serverErrorElement) {
       serverErrorElement.textContent = response.payload.error;
@@ -156,7 +155,7 @@ socket.onmessage = (event) => {
       }
     });
 
-    console.log(`Количество сообщений с isRead: false: ${unreadMessagesCount}`);
+    // console.log(`Количество сообщений с isRead: false: ${unreadMessagesCount}`);
   }
 
   if (
@@ -174,7 +173,6 @@ socket.onmessage = (event) => {
         statusElement.textContent = "Прочитано";
       }
     } else {
-      console.log("Message element not found");
     }
   }
 
@@ -292,7 +290,6 @@ function responsesAnswers(){
       const serverErrorElement = document.getElementById("server-error");
       if (serverErrorElement) {
         serverErrorElement.textContent = response.payload.error;
-        console.error('ERROR')
       }
     }
   
@@ -434,7 +431,6 @@ function responsesAnswers(){
           statusElement.textContent = "Прочитано";
         }
       } else {
-        console.log("Message element not found");
       }
     }
   
