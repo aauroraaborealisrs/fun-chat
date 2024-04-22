@@ -132,12 +132,14 @@ messageStatus.textContent = messageStatusText;
 
         const editB = document.createElement("div");
         editB.className = "list-item";
+        editB.id = message.id;
+
         editB.textContent = "Edit";
         newListContainer.appendChild(editB);
 
         editB.addEventListener("click", function (event) {
           event.stopPropagation();
-          editButtonClickHandler(message.id);
+          editButtonClickHandler(editB.id);
           const sendElement = document.getElementById(
             "send",
           ) as HTMLButtonElement;
@@ -149,11 +151,13 @@ messageStatus.textContent = messageStatusText;
         const deleteB = document.createElement("div");
         deleteB.className = "list-item";
         deleteB.textContent = "Delete";
+        deleteB.id = message.id;
+
         newListContainer.appendChild(deleteB);
 
         deleteB.addEventListener("click", function (event) {
           event.stopPropagation();
-          deleteButtonClickHandler(message.id);
+          deleteButtonClickHandler(deleteB.id);
         });
 
         messageDiv.appendChild(newListContainer);

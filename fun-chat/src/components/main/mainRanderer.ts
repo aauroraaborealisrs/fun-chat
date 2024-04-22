@@ -137,7 +137,7 @@ export default function mainRenderer() {
 
     if (dialogueMessageElement) {
       dialogueMessageElement.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && sendButton.disabled == false) {
           event.preventDefault();
           sendTest();
         }

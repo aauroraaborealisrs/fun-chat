@@ -351,7 +351,7 @@ function responsesAnswers(){
         response.payload.messages.forEach((message: MessagePayload) => {
           renderMessage(message);
           markToReadFromHistory.push(message);
-          console.log(markToReadFromHistory)
+          // console.log(markToReadFromHistory)
 
 
     
@@ -359,12 +359,12 @@ function responsesAnswers(){
           if (!firstUnreadMessageFound && !message.status.isReaded) {
             firstUnreadMessageFound = true; // Set the flag to true
     
-            const dialogue = document.querySelector(".messages-canvas");
-            if (dialogue) {
-              const hr = document.createElement("hr");
-              hr.classList.add("hr-separatop");
-              dialogue.appendChild(hr); // Append the <hr> element
-            }
+            // const dialogue = document.querySelector(".messages-canvas");
+            // if (dialogue) {
+            //   const hr = document.createElement("hr");
+            //   hr.classList.add("hr-separatop");
+            //   dialogue.appendChild(hr); // Append the <hr> element
+            // }
           }
         });
      }
@@ -383,7 +383,7 @@ function responsesAnswers(){
         }
       });
   
-      console.log(`Количество сообщений с isRead: false: ${unreadMessagesCount}`);
+      // console.log(`Количество сообщений с isRead: false: ${unreadMessagesCount}`);
 
 
       // const messagesCanvas = document.querySelector('.messages-canvas');
@@ -392,14 +392,16 @@ function responsesAnswers(){
       //   if (!hidden){
       //     const messages = document.querySelectorAll('.messages-canvas .message');
       //     if (messages.length >= unreadMessagesCount) {
-      //      const thirdLastElement = messages[messages.length - unreadMessagesCount];
-      //      const hr = document.createElement("hr");
-      //      hr.classList.add("hr-separatop");
-      //      if(thirdLastElement.parentNode){
-      //       thirdLastElement.parentNode.insertBefore(hr, thirdLastElement);
+      //       const thirdLastElement = messages[messages.length - unreadMessagesCount];
+      //       if (thirdLastElement && thirdLastElement.parentNode) {
+      //          const hr = document.createElement("hr");
+      //          hr.classList.add("hr-separatop");
+      //          thirdLastElement.parentNode.insertBefore(hr, thirdLastElement);
+      //          console.log(thirdLastElement);
+      //       } else {
+      //          console.error("Element or its parentNode is undefined.");
+      //       }
       //      }
-      //      console.log(thirdLastElement);
-      //     } 
       //   }
       // }
 
