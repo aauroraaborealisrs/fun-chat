@@ -85,6 +85,8 @@ export function renderMessage(message: MessagePayload) {
   const messageStatus = document.createElement("span");
   messageStatus.className = "message-status";
   messageStatus.textContent = message.status.isDelivered ? "sent" : "delivered";
+  messageStatus.textContent = message.status.isReaded ? "readed" : "sent";
+
   messageDiv.appendChild(messageStatus);
 
   const messageEdited = document.createElement("span");

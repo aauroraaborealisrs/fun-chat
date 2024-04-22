@@ -42,3 +42,37 @@ export function markAsRead(messages: ServerResponse[]) {
     }
   });
 }
+
+
+interface Message {
+  datetime: number;
+  from: string;
+  id: string;
+  status: {
+     isDelivered: boolean;
+     isReaded: boolean;
+     isEdited: boolean;
+  };
+  text: string;
+  to: string;
+ }
+
+ export function markAsReadHistory (messages: Message[]) {
+  messages.forEach((message) => {
+     if (!message.status.isReaded) {
+       const request = {
+         id: message.id,
+         type: "MSG_READ",
+         payload: {
+           message: {
+             id: message.id,
+             status: {
+               isReaded: true,
+             },
+           },
+         },
+       };
+       sendRequest(JSON.stringify(request));
+     }
+  });
+ }

@@ -8,7 +8,7 @@ html {
   align-items: center;
   justify-content: center;
   margin-top: 20vh;
-  gap: 10px;
+  gap: 5px;
   background-color: #e1caab;
   width: fit-content;
   margin-left: auto;
@@ -22,12 +22,11 @@ html {
   padding: 10px 20px;
   margin-top: 10px;
   width: 165px;
-  color: white;
   border-radius: 8px;
 }
 
 .login__header {
-  font-size: 1.3em;
+  font-size: 1em;
   font-weight: bold;
 }
 
@@ -47,4 +46,20 @@ input:focus {
 
 .error-message {
   font: 0.8em sans-serif;
+}
+
+
+@media (max-width: 600px){
+  #login-form * {
+    width: fit-content;
+    border-radius: 8px;
+  }
+
+  #login-form .button__main{
+    width: 80%;
+  }
+
+  .dialogue-name{
+    font-size: 14px;
+  }
 }

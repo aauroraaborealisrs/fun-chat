@@ -17,6 +17,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 70vh;
+
 }
 
 li {
@@ -29,10 +31,16 @@ li {
 
 .header-name {
   padding-left: 10px;
+  /* width: 30%; */
+  overflow: hidden; /* Скрывает текст, выходящий за границы */
+  text-overflow: ellipsis; /* Добавляет многоточие в конце обрезанного текста */
+  white-space: nowrap; /* Предотвращает перенос текста на новую строку */
 }
 .main {
   width: 90%;
-  height: 400px;
+  /* height: 400px; */
+  height: 70vh;
+
   border: 1px solid black;
   padding: 5px 0px;
   display: flex;
@@ -42,7 +50,7 @@ li {
 .users,
 .dialogue {
   width: 80%;
-  border: 1px solid black;
+  border-left: 1px solid black;
 }
 
 .users {
@@ -67,7 +75,8 @@ li {
 .messages-canvas {
   display: flex;
   flex-direction: column;
-  height: 355px;
+  /* height: 355px; */
+  height: 60vh;
   overflow: auto;
 }
 
@@ -79,6 +88,7 @@ li {
   margin: 5px;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  max-width: 80%;
 }
 
 .message-text {
@@ -177,6 +187,7 @@ a {
   overflow: hidden; /* Скрывает текст, выходящий за границы */
   text-overflow: ellipsis; /* Добавляет многоточие в конце обрезанного текста */
   white-space: nowrap; /* Предотвращает перенос текста на новую строку */
+  padding-right: 3px;
 }
 
 
@@ -201,4 +212,55 @@ a {
  padding: 20px;
  border: 1px solid #888;
  width: 80%; /* Ширина */
+}
+
+
+/* @media (max-width: 983px) {
+
+  .users,
+  .dialogue {
+    width: 78%;
+  }
+  
+}
+
+@media (max-width: 880px) {
+
+  .users,
+  .dialogue {
+    width: 76%;
+  }
+  
+}
+
+@media (max-width: 814px) {
+
+  .users,
+  .dialogue {
+    width: 74%;
+  }
+  
+} */
+
+
+
+@media (max-width: 500px) {
+
+  html{
+    font-size: 14px;
+  }
+  
+}
+
+
+#info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20vh;
+  padding: 0px 10%;
+}
+
+.infoButton{
+  margin-top: 10px;
 }

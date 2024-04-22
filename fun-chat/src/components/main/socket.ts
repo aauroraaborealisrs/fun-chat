@@ -26,7 +26,26 @@ interface ServerResponse {
   };
 }
 
+interface MessagePayload {
+  id: string;
+  from: string;
+  to: string;
+  text: string;
+  datetime: number;
+  status: MessageStatus;
+}
+
+interface MessageStatus {
+  isDelivered: boolean;
+  isReaded: boolean;
+  isEdited: boolean;
+}
+
+
+
 let responsesArray: ServerResponse[] = [];
+
+let markToReadFromHistory: MessagePayload [] = [];
 
 let socket = new WebSocket("ws://localhost:4000");
 
@@ -40,6 +59,14 @@ socket.onmessage = (event) => {
   // Парсинг полученных данных
   const response = JSON.parse(event.data);
 
+  if (response.type === "ERROR" && response.payload && response.payload.error) {
+    console.log('ERROR')
+    const serverErrorElement = document.getElementById("server-error");
+    if (serverErrorElement) {
+      serverErrorElement.textContent = response.payload.error;
+    }
+  }
+
   if (
     response.payload &&
     response.payload.user &&
@@ -48,12 +75,6 @@ socket.onmessage = (event) => {
     renderPage("main");
   }
 
-  if (response.type === "ERROR" && response.payload && response.payload.error) {
-    const serverErrorElement = document.getElementById("server-error");
-    if (serverErrorElement) {
-      serverErrorElement.textContent = response.payload.error;
-    }
-  }
 
   if (response.payload && response.payload.users) {
     const usersList = document.querySelector(".users-list");
@@ -77,7 +98,6 @@ socket.onmessage = (event) => {
   ) {
     createMessage(response);
     responsesArray.push(response);
-    // markAsRead(responsesArray);
   }
 
   interface MessageStatus {
@@ -94,6 +114,8 @@ socket.onmessage = (event) => {
     datetime: number;
     status: MessageStatus;
   }
+
+ 
 
   if (response.type === "MSG_FROM_USER") {
     if (response.payload.messages.length === 0) {
@@ -113,14 +135,12 @@ socket.onmessage = (event) => {
 
       const dialogue = document.querySelector(".messages-canvas");
       if (dialogue) {
-        const hr = document.createElement("hr");
-        hr.classList.add("hr-separatop");
-        dialogue.appendChild(hr);
-        //  markAsRead(responsesArray);
-
-        // markAsRead();
+        // const hr = document.createElement("hr");
+        // hr.classList.add("hr-separatop");
+        // dialogue.appendChild(hr);
       }
     }
+
 
     //раздел с количеством сообщений
 
@@ -187,7 +207,6 @@ socket.onmessage = (event) => {
     renderPage("login");
   }
 
-  // markAsRead(responsesArray);
 };
 
 // Обработчик ошибки
@@ -206,7 +225,6 @@ socket.onerror = (error) => {
 // };
 
 function createModal() {
- // Создание элемента модального окна
  const modal = document.createElement('div');
  modal.id = 'modal';
  modal.className = 'modal';
@@ -274,6 +292,7 @@ function responsesAnswers(){
       const serverErrorElement = document.getElementById("server-error");
       if (serverErrorElement) {
         serverErrorElement.textContent = response.payload.error;
+        console.error('ERROR')
       }
     }
   
@@ -318,6 +337,7 @@ function responsesAnswers(){
     }
   
     if (response.type === "MSG_FROM_USER") {
+      markToReadFromHistory.length = 0;
       if (response.payload.messages.length === 0) {
         const dialogue = document.querySelector(".messages-canvas");
         const existingTempElement = dialogue?.querySelector(".temp");
@@ -329,20 +349,29 @@ function responsesAnswers(){
           dialogue?.appendChild(temp);
         }
       } else {
+        let firstUnreadMessageFound = false; // Flag to track the first unread message
+    
         response.payload.messages.forEach((message: MessagePayload) => {
           renderMessage(message);
+          markToReadFromHistory.push(message);
+          console.log(markToReadFromHistory)
+
+
+    
+          // Check if this is the first unread message
+          if (!firstUnreadMessageFound && !message.status.isReaded) {
+            firstUnreadMessageFound = true; // Set the flag to true
+    
+            const dialogue = document.querySelector(".messages-canvas");
+            if (dialogue) {
+              const hr = document.createElement("hr");
+              hr.classList.add("hr-separatop");
+              dialogue.appendChild(hr); // Append the <hr> element
+            }
+          }
         });
-  
-        const dialogue = document.querySelector(".messages-canvas");
-        if (dialogue) {
-          const hr = document.createElement("hr");
-          hr.classList.add("hr-separatop");
-          dialogue.appendChild(hr);
-          //  markAsRead(responsesArray);
-  
-          // markAsRead();
-        }
-      }
+     }
+    
   
       //раздел с количеством сообщений
   
@@ -353,12 +382,41 @@ function responsesAnswers(){
           !message.status.isReaded &&
           message.to == sessionStorage.getItem("login")
         ) {
-          // Проверяем, если isRead равно false
-          unreadMessagesCount++; // Увеличиваем счетчик
+          unreadMessagesCount++;
         }
       });
   
       console.log(`Количество сообщений с isRead: false: ${unreadMessagesCount}`);
+
+
+      // const messagesCanvas = document.querySelector('.messages-canvas');
+      // if (messagesCanvas){      
+      //   let hidden = messagesCanvas.classList.contains('hidden');
+      //   if (!hidden){
+      //     const messages = document.querySelectorAll('.messages-canvas .message');
+      //     if (messages.length >= unreadMessagesCount) {
+      //      const thirdLastElement = messages[messages.length - unreadMessagesCount];
+      //      const hr = document.createElement("hr");
+      //      hr.classList.add("hr-separatop");
+      //      if(thirdLastElement.parentNode){
+      //       thirdLastElement.parentNode.insertBefore(hr, thirdLastElement);
+      //      }
+      //      console.log(thirdLastElement);
+      //     } 
+      //   }
+      // }
+
+      // const messages = document.querySelectorAll('.messages-canvas .message');
+      // console.log(messages);
+      // if (messages.length >= unreadMessagesCount) {
+      //  const thirdLastElement = messages[messages.length - unreadMessagesCount];
+      //  const hr = document.createElement("hr");
+      //  hr.classList.add("hr-separatop");
+      //  if(thirdLastElement.parentNode){
+      //   thirdLastElement.parentNode.insertBefore(hr, thirdLastElement);
+      //  }
+      //  console.log(thirdLastElement);
+      // } 
     }
   
     if (
@@ -409,7 +467,6 @@ function responsesAnswers(){
       renderPage("login");
     }
   
-    // markAsRead(responsesArray);
   };
 }
 
@@ -419,6 +476,8 @@ function connectToServer() {
   socket.onopen = (event) => {
      console.log("Connection opened");
      hideModal()
+
+     
      let login = sessionStorage.getItem("login") as string;
      let password = sessionStorage.getItem("password") as string;
      if (login && password) {
@@ -440,6 +499,8 @@ function connectToServer() {
      }
 
      responsesAnswers()
+
+     
 
 
 
@@ -480,18 +541,16 @@ socket.onclose = (event) => {
 };
 
 export default function sendRequest(message: string) {
-  socket.send(message);
+  if (socket.readyState === WebSocket.OPEN){
+    socket.send(message);
+    responsesAnswers();
+    
+  }
+  // socket.send(message);
 }
 
-// window.addEventListener('click', () => {
-//     markAsRead(responsesArray);
-// });
-
-// window.addEventListener('scroll', () => {
-//   markAsRead(responsesArray);
-// });
-
 export { responsesArray };
+export {markToReadFromHistory};
 
 function waitForElement(selector: string, callback: () => void) {
   const element = document.querySelector(selector);

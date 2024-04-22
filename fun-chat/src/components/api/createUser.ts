@@ -18,5 +18,8 @@ export default function createUser(login: string, password: string) {
   sessionStorage.setItem("login", login);
   sessionStorage.setItem("password", password);
 
+  localStorage.setItem("login", login);
+  localStorage.setItem("password", password);
+
   sendRequest(JSON.stringify(request));
 }

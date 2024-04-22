@@ -1,15 +1,15 @@
 import "./main.css";
 import renderPage from "../../index";
 import sendMessage from "./sendMessage";
-import { markAsRead } from "./markAsRead";
-import { responsesArray } from "./socket";
+import { markAsRead, markAsReadHistory } from "./markAsRead";
+import { responsesArray , markToReadFromHistory} from "./socket";
 import sendRequest from "./socket";
 import { isAutoScrolling } from "./createMessage";
 export default function mainRenderer() {
   const htmlContent = `
     <div class="container">
     <header class="header">
-        <span class="header-name">Пользователь:</span>
+        <span class="header-name"></span>
         <span>Fun Chat</span>
         <div class="buttons">
             <button id="info-button">Info</button>
@@ -84,7 +84,9 @@ export default function mainRenderer() {
           },
         };
         sendRequest(JSON.stringify(request));
+      
       });
+  
     }
 
     const sendButton = document.getElementById("send") as HTMLButtonElement;
@@ -145,6 +147,7 @@ export default function mainRenderer() {
 
     function sendTest() {
       markAsRead(responsesArray);
+      markAsReadHistory(markToReadFromHistory)
 
       const dialogueNameElement = document.querySelector(
         ".dialogue-name",
@@ -205,6 +208,8 @@ export default function mainRenderer() {
 
       messagesCanvas.addEventListener("wheel", () => {
         markAsRead(responsesArray);
+        markAsReadHistory(markToReadFromHistory)
+
 
         isUserScrolling = true;
       });
@@ -212,14 +217,71 @@ export default function mainRenderer() {
       messagesCanvas.addEventListener("scroll", () => {
         if (isUserScrolling) {
           markAsRead(responsesArray);
+          markAsReadHistory(markToReadFromHistory)
+
         }
       });
 
       messagesCanvas.addEventListener("click", () => {
         markAsRead(responsesArray);
+        markAsReadHistory(markToReadFromHistory)
+
       });
     }
   } else {
     console.error('Element with ID "main" not found');
   }
 }
+
+function createModal() {
+  // Создание элемента модального окна
+  const modal = document.createElement('div');
+  modal.id = 'modal';
+  modal.className = 'modal';
+ 
+  // Создание содержимого модального окна
+  const modalContent = document.createElement('div');
+  modalContent.className = 'modal-content';
+ 
+  // Создание текста внутри модального окна
+  const text = document.createElement('p');
+  text.textContent = 'Вкладка была продублирована, поэтому выйдите где зашли изначально пж, я не знаю как правильно обработать этот случай, в примере сразу login, но там условие есть про main для авторизованных, не снимайте, умоляю, я два вечера страдала над этим. Я не придумала как и зачем закрывать модалку поэтому просто закройте окно. Спасибо, надеюсь на понимание';
+ 
+  // Добавление текста в содержимое модального окна
+  modalContent.appendChild(text);
+ 
+  // Добавление содержимого модального окна в модальное окно
+  modal.appendChild(modalContent);
+ 
+  // Добавление модального окна в DOM
+  document.body.appendChild(modal);
+ 
+  // Функция для отображения модального окна
+  function showModal() {
+     modal.style.display = "block";
+  }
+ 
+  // Функция для скрытия модального окна
+  function hideModal() {
+     modal.style.display = "none";
+  }
+ 
+  return { showModal, hideModal };
+ }
+ 
+ function showModal() {
+   const modal = createModal();
+   modal.showModal();
+ 
+ }
+ 
+ // Функция для скрытия модального окна
+ function hideModal() {
+  const modalElement = document.getElementById('modal');
+  if (modalElement) {
+     modalElement.style.display = "none";
+  } else {
+     console.error("Modal element not found");
+  }
+ }
+ 

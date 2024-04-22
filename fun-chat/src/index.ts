@@ -15,7 +15,7 @@ export default function renderPage(id: string) {
   document.body.innerHTML = "";
   document.body.innerHTML = `<div id="${id}"></div>`;
 
-  history.pushState(null, "", `#${id}`);
+  // history.pushState(null, "", `#${id}`);
 
   if (id === Pages.INFO) {
     const info = new infoPage();
@@ -34,19 +34,52 @@ export default function renderPage(id: string) {
   }
 }
 
+// Функция для генерации уникального идентификатора
+function generateUniqueId() {
+ return crypto.randomUUID();
+}
+
+// let tabId = localStorage.getItem('tabId');
+
+// if (!tabId) {
+//  tabId = generateUniqueId();
+//  localStorage.setItem('tabId', tabId);
+// } else {
+//  console.log('Вкладка была продублирована');
+//  renderPage(Pages.MAIN);
+//  sessionStorage.setItem('dublicate', 'true');
+
+// }
+
 renderPage(Pages.LOGIN);
 
 // if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
-//   renderPage(Pages.MAIN);
+//       renderPage(Pages.MAIN);
+    
+//   } else {
+//     renderPage(Pages.LOGIN);
+// }
+
+// if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
+//   let tabId = localStorage.getItem('tabId');
+//   if (!tabId){
+//     renderPage(Pages.LOGIN);
+//   } else {
+//     renderPage(Pages.MAIN);
+//   }
+//   // renderPage(Pages.MAIN);
 // } else {
 //   renderPage(Pages.LOGIN);
 // }
 
-function enableRouteChange() {
-  window.addEventListener("hashchange", () => {
-    const hash = window.location.hash.slice(1);
-    renderPage(hash);
-  });
-}
+// renderPage(Pages.LOGIN);
 
-enableRouteChange();
+
+// function enableRouteChange() {
+//   window.addEventListener("hashchange", () => {
+//     const hash = window.location.hash.slice(1);
+//     renderPage(hash);
+//   });
+// }
+
+// enableRouteChange();
