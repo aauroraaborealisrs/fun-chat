@@ -19,12 +19,18 @@ export default function renderPage(id: string) {
 
   if (id === Pages.INFO) {
     const info = new infoPage();
+    console.log('info rendered')
   } else if (id === Pages.LOGIN) {
     const loginForm = new LoginForm();
+    console.log('login rendered')
   } else if (id === Pages.MAIN /*&& sessionStorage.getItem('login')*/) {
     const main = new mainPage();
+    console.log('main rendered')
+
   } else {
     const loginForm = new LoginForm();
+    console.log('login rendered')
+
   }
 }
 
