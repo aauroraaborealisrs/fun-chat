@@ -15,65 +15,76 @@ export default function renderPage(id: string) {
   document.body.innerHTML = "";
   document.body.innerHTML = `<div id="${id}"></div>`;
 
-  // history.pushState(null, "", `#${id}`);
+  history.pushState(null, "", `#${id}`);
 
   if (id === Pages.INFO) {
     const info = new infoPage();
   } else if (id === Pages.LOGIN) {
     const loginForm = new LoginForm();
-  } else if (id === Pages.MAIN /*&& sessionStorage.getItem('login')*/) {
+  } else if (id === Pages.MAIN && sessionStorage.getItem('login')) {
     const main = new mainPage();
   } else {
     const loginForm = new LoginForm();
   }
 }
 
-// Функция для генерации уникального идентификатора
+// --------------- тут я пыталась сделать контроль дублирования вкладки и если я дублирую вкладку то есть юзер уже залогинен и нужно показывать main
 function generateUniqueId() {
  return crypto.randomUUID();
 }
 
-// let tabId = localStorage.getItem('tabId');
+let tabId = localStorage.getItem('tabId');
 
-// if (!tabId) {
-//  tabId = generateUniqueId();
-//  localStorage.setItem('tabId', tabId);
-// } else {
-//  console.log('Вкладка была продублирована');
-//  renderPage(Pages.MAIN);
-//  sessionStorage.setItem('dublicate', 'true');
+if (!tabId) {
+ tabId = generateUniqueId();
+ localStorage.setItem('tabId', tabId);
+} else {
+ console.log('Вкладка была продублирована');
+ renderPage(Pages.MAIN);
 
-// }
+//но ничего не работает, скорее всего потому что обработчики привязаны на события которые не произошли но неважно
 
-renderPage(Pages.LOGIN);
+ sessionStorage.setItem('dublicate', 'true');
 
-// if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
-//       renderPage(Pages.MAIN);
+}
+
+//--------конец попытки
+
+
+// renderPage(Pages.LOGIN); //чтобы автоматически открывался логин
+
+//-----ещё попытка сделать при наличии логина и пароля открытие мейна
+
+if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
+      renderPage(Pages.MAIN);
     
-//   } else {
-//     renderPage(Pages.LOGIN);
-// }
+  } else {
+    renderPage(Pages.LOGIN);
+}
 
-// if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
-//   let tabId = localStorage.getItem('tabId');
-//   if (!tabId){
-//     renderPage(Pages.LOGIN);
-//   } else {
-//     renderPage(Pages.MAIN);
-//   }
-//   // renderPage(Pages.MAIN);
-// } else {
-//   renderPage(Pages.LOGIN);
-// }
+//-----ещё попытка сделать при наличии логина и пароля открытие мейна с дублированием вкладки
+
+
+if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
+  let tabId = localStorage.getItem('tabId');
+  if (!tabId){
+    renderPage(Pages.LOGIN);
+  } else {
+    renderPage(Pages.MAIN);
+  }
+  // renderPage(Pages.MAIN);
+} else {
+  renderPage(Pages.LOGIN);
+}
 
 // renderPage(Pages.LOGIN);
 
 
-// function enableRouteChange() {
-//   window.addEventListener("hashchange", () => {
-//     const hash = window.location.hash.slice(1);
-//     renderPage(hash);
-//   });
-// }
+function enableRouteChange() {
+  window.addEventListener("hashchange", () => {
+    const hash = window.location.hash.slice(1);
+    renderPage(hash);
+  });
+}
 
-// enableRouteChange();
+enableRouteChange();

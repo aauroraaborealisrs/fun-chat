@@ -173,8 +173,10 @@ messageStatus.textContent = messageStatusText;
     autoScrollToBottom(dialogue);
   }
 }
+let editHandlerAdded = false;
 
 function editButtonClickHandler(id: string) {
+  console.log('editButtonClickHandler',id)
   const dialogue = document.querySelector(".messages-canvas") as HTMLElement;
   if (!dialogue) {
     console.error("Dialogue container not found");
@@ -182,6 +184,7 @@ function editButtonClickHandler(id: string) {
   }
 
   const messageElement = dialogue.querySelector(`[id="${id}"]`) as HTMLElement;
+
   if (!messageElement) {
     console.error(`Message with id ${id} not found`);
     return;
@@ -196,7 +199,6 @@ function editButtonClickHandler(id: string) {
   }
 
   const messageText = messageTextElement.textContent;
-
   const dialogueMessageElement = document.querySelector(
     ".dialogue-message",
   ) as HTMLInputElement;
@@ -215,6 +217,8 @@ function editButtonClickHandler(id: string) {
   if (editElement) {
     editElement.disabled = false;
     editElement.addEventListener("click", function (event) {
+      console.log('editElement', id)
+
       editElement.disabled = true;
       const dialogueMessageInput = document.querySelector(
         ".dialogue-message",
@@ -227,6 +231,7 @@ function editButtonClickHandler(id: string) {
       ) as HTMLInputElement;
       if (dialogueMessageElement) {
         const messageContent = dialogueMessageElement.value;
+        console.log(`АЙДИШНКА ${id}`)
 
         const request = {
           id: crypto.randomUUID(),
@@ -238,6 +243,7 @@ function editButtonClickHandler(id: string) {
             },
           },
         };
+        console.log(request, request.payload.message.id)
         sendRequest(JSON.stringify(request));
         messageTextElement.textContent = messageContent;
         const messageEdited = messageElement.querySelector(
@@ -246,7 +252,12 @@ function editButtonClickHandler(id: string) {
         messageEdited.textContent = "edited";
       }
 
+      editHandlerAdded = true;
+
+
     });
+    editHandlerAdded = true;
+
   }
 }
 

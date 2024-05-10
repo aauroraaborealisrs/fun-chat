@@ -89,6 +89,7 @@ li {
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 80%;
+  cursor: pointer;
 }
 
 .message-text {
@@ -214,6 +215,9 @@ a {
  width: 80%; /* Ширина */
 }
 
+.message-who-sent{
+  padding-right: 3px;
+}
 
 /* @media (max-width: 983px) {
 
