@@ -2,7 +2,7 @@ import "./main.css";
 import renderPage from "../../index";
 import sendMessage from "./sendMessage";
 import { markAsRead, markAsReadHistory } from "./markAsRead";
-import { responsesArray , markToReadFromHistory} from "./socket";
+import { responsesArray, markToReadFromHistory } from "./socket";
 import sendRequest from "./socket";
 import { isAutoScrolling } from "./createMessage";
 export default function mainRenderer() {
@@ -83,9 +83,7 @@ export default function mainRenderer() {
           },
         };
         sendRequest(JSON.stringify(request));
-      
       });
-  
     }
 
     const sendButton = document.getElementById("send") as HTMLButtonElement;
@@ -105,24 +103,6 @@ export default function mainRenderer() {
         }
       });
     }
-
-    // if (sendButton) {
-    //   sendButton.addEventListener("click", (event) => {
-    //     event.preventDefault();
-    //     markAsRead(responsesArray);
-
-    //     const dialogueNameElement = document.querySelector(
-    //       ".dialogue-name",
-    //     ) as HTMLElement;
-    //     const name = dialogueNameElement.textContent as string;
-    //     const dialogueMessageElement = document.querySelector(
-    //       ".dialogue-message",
-    //     ) as HTMLInputElement;
-    //     const message = dialogueMessageElement.value as string;
-    //     sendButton.disabled = true;
-    //     sendMessage(name, message);
-    //   });
-    // }
 
     if (sendButton) {
       sendButton.addEventListener("click", (event) => {
@@ -146,7 +126,7 @@ export default function mainRenderer() {
 
     function sendTest() {
       markAsRead(responsesArray);
-      markAsReadHistory(markToReadFromHistory)
+      markAsReadHistory(markToReadFromHistory);
 
       const dialogueNameElement = document.querySelector(
         ".dialogue-name",
@@ -187,7 +167,7 @@ export default function mainRenderer() {
 
     const messagesCanvas = document.querySelector(".messages-canvas");
     if (messagesCanvas) {
-      let isUserScrolling = false; // Переменная для отслеживания прокрутки пользователя
+      let isUserScrolling = false;
 
       messagesCanvas.addEventListener("mousedown", () => {
         isUserScrolling = true;
@@ -207,8 +187,7 @@ export default function mainRenderer() {
 
       messagesCanvas.addEventListener("wheel", () => {
         markAsRead(responsesArray);
-        markAsReadHistory(markToReadFromHistory)
-
+        markAsReadHistory(markToReadFromHistory);
 
         isUserScrolling = true;
       });
@@ -216,15 +195,13 @@ export default function mainRenderer() {
       messagesCanvas.addEventListener("scroll", () => {
         if (isUserScrolling) {
           markAsRead(responsesArray);
-          markAsReadHistory(markToReadFromHistory)
-
+          markAsReadHistory(markToReadFromHistory);
         }
       });
 
       messagesCanvas.addEventListener("click", () => {
         markAsRead(responsesArray);
-        markAsReadHistory(markToReadFromHistory)
-
+        markAsReadHistory(markToReadFromHistory);
       });
     }
   } else {
@@ -233,54 +210,43 @@ export default function mainRenderer() {
 }
 
 function createModal() {
-  // Создание элемента модального окна
-  const modal = document.createElement('div');
-  modal.id = 'modal';
-  modal.className = 'modal';
- 
-  // Создание содержимого модального окна
-  const modalContent = document.createElement('div');
-  modalContent.className = 'modal-content';
- 
-  // Создание текста внутри модального окна
-  const text = document.createElement('p');
-  text.textContent = 'Вкладка была продублирована, поэтому выйдите где зашли изначально пж, я не знаю как правильно обработать этот случай, в примере сразу login, но там условие есть про main для авторизованных, не снимайте, умоляю, я два вечера страдала над этим. Я не придумала как и зачем закрывать модалку поэтому просто закройте окно. Спасибо, надеюсь на понимание';
- 
-  // Добавление текста в содержимое модального окна
+  const modal = document.createElement("div");
+  modal.id = "modal";
+  modal.className = "modal";
+
+  const modalContent = document.createElement("div");
+  modalContent.className = "modal-content";
+
+  const text = document.createElement("p");
+  text.textContent =
+    "Вкладка была продублирована, поэтому выйдите где зашли изначально пж";
+
   modalContent.appendChild(text);
- 
-  // Добавление содержимого модального окна в модальное окно
+
   modal.appendChild(modalContent);
- 
-  // Добавление модального окна в DOM
   document.body.appendChild(modal);
- 
-  // Функция для отображения модального окна
+
   function showModal() {
-     modal.style.display = "block";
+    modal.style.display = "block";
   }
- 
-  // Функция для скрытия модального окна
+
   function hideModal() {
-     modal.style.display = "none";
+    modal.style.display = "none";
   }
- 
+
   return { showModal, hideModal };
- }
- 
- function showModal() {
-   const modal = createModal();
-   modal.showModal();
- 
- }
- 
- // Функция для скрытия модального окна
- function hideModal() {
-  const modalElement = document.getElementById('modal');
+}
+
+function showModal() {
+  const modal = createModal();
+  modal.showModal();
+}
+
+function hideModal() {
+  const modalElement = document.getElementById("modal");
   if (modalElement) {
-     modalElement.style.display = "none";
+    modalElement.style.display = "none";
   } else {
-     console.error("Modal element not found");
+    console.error("Modal element not found");
   }
- }
- 
+}

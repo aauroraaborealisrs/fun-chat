@@ -23,25 +23,6 @@ export function renderActiveUserList(
 
     sendRequest(JSON.stringify(request));
 
-    // const userLabelElement = document.querySelector(".header-name");
-    // let userLabelText = "";
-    // if (userLabelElement) {
-    //   const fullText = userLabelElement.textContent?.trim();
-    //   const prefix = "Пользователь:";
-    //   if (fullText) {
-    //     const index = fullText.indexOf(prefix);
-    //     if (index !== -1) {
-    //       userLabelText = fullText.substring(index + prefix.length).trim();
-    //     }
-    //   }
-    // }
-
-    // if (existingUserLogin) {
-    //   // const userLabelElement = document.querySelector('.header-name');
-    //   // if (userLabelElement){    userLabelElement.textContent += ` ${existingUserLogin}`;}
-    //   // return;
-    // }
-
     const li = document.createElement("li");
     li.textContent = `${user.login}`;
     const userLogin = sessionStorage.getItem("login");

@@ -21,64 +21,44 @@ export default function renderPage(id: string) {
     const info = new infoPage();
   } else if (id === Pages.LOGIN) {
     const loginForm = new LoginForm();
-  } else if (id === Pages.MAIN && sessionStorage.getItem('login')) {
+  } else if (id === Pages.MAIN && sessionStorage.getItem("login")) {
     const main = new mainPage();
   } else {
     const loginForm = new LoginForm();
   }
 }
 
-// --------------- тут я пыталась сделать контроль дублирования вкладки и если я дублирую вкладку то есть юзер уже залогинен и нужно показывать main
 function generateUniqueId() {
- return crypto.randomUUID();
+  return crypto.randomUUID();
 }
 
-let tabId = localStorage.getItem('tabId');
+let tabId = localStorage.getItem("tabId");
 
 if (!tabId) {
- tabId = generateUniqueId();
- localStorage.setItem('tabId', tabId);
+  tabId = generateUniqueId();
+  localStorage.setItem("tabId", tabId);
 } else {
- console.log('Вкладка была продублирована');
- renderPage(Pages.MAIN);
-
-//но ничего не работает, скорее всего потому что обработчики привязаны на события которые не произошли но неважно
-
- sessionStorage.setItem('dublicate', 'true');
-
+  console.log("Вкладка была продублирована");
+  renderPage(Pages.MAIN);
+  sessionStorage.setItem("dublicate", "true");
 }
 
-//--------конец попытки
-
-
-// renderPage(Pages.LOGIN); //чтобы автоматически открывался логин
-
-//-----ещё попытка сделать при наличии логина и пароля открытие мейна
-
-if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
-      renderPage(Pages.MAIN);
-    
-  } else {
-    renderPage(Pages.LOGIN);
-}
-
-//-----ещё попытка сделать при наличии логина и пароля открытие мейна с дублированием вкладки
-
-
-if (sessionStorage.getItem('login') && sessionStorage.getItem('password')) {
-  let tabId = localStorage.getItem('tabId');
-  if (!tabId){
-    renderPage(Pages.LOGIN);
-  } else {
-    renderPage(Pages.MAIN);
-  }
-  // renderPage(Pages.MAIN);
+if (sessionStorage.getItem("login") && sessionStorage.getItem("password")) {
+  renderPage(Pages.MAIN);
 } else {
   renderPage(Pages.LOGIN);
 }
 
-// renderPage(Pages.LOGIN);
-
+if (sessionStorage.getItem("login") && sessionStorage.getItem("password")) {
+  let tabId = localStorage.getItem("tabId");
+  if (!tabId) {
+    renderPage(Pages.LOGIN);
+  } else {
+    renderPage(Pages.MAIN);
+  }
+} else {
+  renderPage(Pages.LOGIN);
+}
 
 function enableRouteChange() {
   window.addEventListener("hashchange", () => {

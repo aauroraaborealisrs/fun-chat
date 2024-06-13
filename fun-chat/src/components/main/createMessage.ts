@@ -84,23 +84,20 @@ export function renderMessage(message: MessagePayload) {
 
   const messageStatus = document.createElement("span");
   messageStatus.className = "message-status";
-  // messageStatus.textContent = message.status.isReaded ? "readed" : " ";
-  // messageStatus.textContent = message.status.isDelivered ? "sent" : "delivered";
   let messageStatusText;
 
-switch (true) {
- case message.status.isReaded:
-    messageStatusText = "readed";
-    break;
- case message.status.isDelivered:
-    messageStatusText = "sent";
-    break;
- default:
-    messageStatusText = "delivered";
-}
+  switch (true) {
+    case message.status.isReaded:
+      messageStatusText = "readed";
+      break;
+    case message.status.isDelivered:
+      messageStatusText = "sent";
+      break;
+    default:
+      messageStatusText = "delivered";
+  }
 
-messageStatus.textContent = messageStatusText;
-
+  messageStatus.textContent = messageStatusText;
 
   messageDiv.appendChild(messageStatus);
 
@@ -176,7 +173,7 @@ messageStatus.textContent = messageStatusText;
 let editHandlerAdded = false;
 
 function editButtonClickHandler(id: string) {
-  console.log('editButtonClickHandler',id)
+  console.log("editButtonClickHandler", id);
   const dialogue = document.querySelector(".messages-canvas") as HTMLElement;
   if (!dialogue) {
     console.error("Dialogue container not found");
@@ -217,7 +214,7 @@ function editButtonClickHandler(id: string) {
   if (editElement) {
     editElement.disabled = false;
     editElement.addEventListener("click", function (event) {
-      console.log('editElement', id)
+      console.log("editElement", id);
 
       editElement.disabled = true;
       const dialogueMessageInput = document.querySelector(
@@ -231,7 +228,7 @@ function editButtonClickHandler(id: string) {
       ) as HTMLInputElement;
       if (dialogueMessageElement) {
         const messageContent = dialogueMessageElement.value;
-        console.log(`АЙДИШНКА ${id}`)
+        console.log(`АЙДИШНКА ${id}`);
 
         const request = {
           id: crypto.randomUUID(),
@@ -243,7 +240,7 @@ function editButtonClickHandler(id: string) {
             },
           },
         };
-        console.log(request, request.payload.message.id)
+        console.log(request, request.payload.message.id);
         sendRequest(JSON.stringify(request));
         messageTextElement.textContent = messageContent;
         const messageEdited = messageElement.querySelector(
@@ -253,11 +250,8 @@ function editButtonClickHandler(id: string) {
       }
 
       editHandlerAdded = true;
-
-
     });
     editHandlerAdded = true;
-
   }
 }
 

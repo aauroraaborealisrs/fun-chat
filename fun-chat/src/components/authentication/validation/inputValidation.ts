@@ -21,7 +21,8 @@ export default function checkInputValidity(input: HTMLInputElement): {
     regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/;
     if (!regex.test(input.value)) {
       isValid = false;
-      errorMessage = "Пароль должен содержать хотя бы одну букву и одну цифру (только латиница)";
+      errorMessage =
+        "Пароль должен содержать хотя бы одну букву и одну цифру (только латиница)";
     }
   } else {
     regex = /^[A-Za-z-]+$/;
