@@ -1,4 +1,3 @@
-import renderPage from "../../index";
 import sendRequest from "../main/socket";
 
 export default function createUser(login: string, password: string) {

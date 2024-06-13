@@ -1,26 +1,4 @@
-interface MessageStatus {
-  isDelivered: boolean;
-  isReaded: boolean;
-  isEdited: boolean;
-}
-
-interface MessagePayload {
-  id: string;
-  from: string;
-  to: string;
-  text: string;
-  datetime: number;
-  status: MessageStatus;
-}
-
-interface ServerResponse {
-  id: string;
-  type: string;
-  payload: {
-    message: MessagePayload;
-  };
-}
-
+import { MessagePayload, ServerResponse } from "../utilities/interfaces";
 import sendRequest from "./socket";
 
 let isAutoScrolling = false;

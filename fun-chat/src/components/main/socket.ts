@@ -7,39 +7,7 @@ import {
 } from "./userListRenderer";
 import { markAsRead } from "./markAsRead";
 
-interface ServerResponse {
-  id: string;
-  type: string;
-  payload: {
-    message: {
-      id: string;
-      from: string;
-      to: string;
-      text: string;
-      datetime: number;
-      status: {
-        isDelivered: boolean;
-        isReaded: boolean;
-        isEdited: boolean;
-      };
-    };
-  };
-}
-
-interface MessagePayload {
-  id: string;
-  from: string;
-  to: string;
-  text: string;
-  datetime: number;
-  status: MessageStatus;
-}
-
-interface MessageStatus {
-  isDelivered: boolean;
-  isReaded: boolean;
-  isEdited: boolean;
-}
+import { MessagePayload, ServerResponse } from "../utilities/interfaces";
 
 let responsesArray: ServerResponse[] = [];
 

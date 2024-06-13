@@ -1,10 +1,5 @@
 import mainRenderer from "./mainRanderer";
-import { renderActiveUserList } from "./userListRenderer";
 import sendMessage from "./socket";
-interface User {
-  login: string;
-  isLogined: boolean;
-}
 
 export default class MainPage {
   constructor() {

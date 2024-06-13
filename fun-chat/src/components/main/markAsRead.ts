@@ -1,23 +1,5 @@
 import sendRequest from "./socket";
-
-interface ServerResponse {
-  id: string;
-  type: string;
-  payload: {
-    message: {
-      id: string;
-      from: string;
-      to: string;
-      text: string;
-      datetime: number;
-      status: {
-        isDelivered: boolean;
-        isReaded: boolean;
-        isEdited: boolean;
-      };
-    };
-  };
-}
+import { Message, ServerResponse } from "../utilities/interfaces";
 
 export function markAsRead(messages: ServerResponse[]) {
   messages.forEach((message) => {
@@ -41,19 +23,6 @@ export function markAsRead(messages: ServerResponse[]) {
       sendRequest(JSON.stringify(request));
     }
   });
-}
-
-interface Message {
-  datetime: number;
-  from: string;
-  id: string;
-  status: {
-    isDelivered: boolean;
-    isReaded: boolean;
-    isEdited: boolean;
-  };
-  text: string;
-  to: string;
 }
 
 export function markAsReadHistory(messages: Message[]) {

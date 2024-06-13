@@ -1,9 +1,5 @@
 import sendRequest from "./socket";
 
-function autoScrollToBottom(element: HTMLElement) {
-  element.scrollTop = element.scrollHeight;
-}
-
 export default function nameClick() {
   const listItems = document.querySelectorAll(".user_li");
   listItems.forEach((item) => {

@@ -1,7 +1,4 @@
-interface User {
-  login: string;
-  isLogined: boolean;
-}
+import { User } from "../utilities/interfaces";
 import sendRequest from "./socket";
 
 export function renderActiveUserList(
