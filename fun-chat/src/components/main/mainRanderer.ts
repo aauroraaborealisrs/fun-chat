@@ -1,5 +1,5 @@
 import renderPage from "../../index";
-import {updateUserListBasedOnSearch } from "./updateUserList";
+import { updateUserListBasedOnSearch } from "./updateUserList";
 import createMainPage from "./createMainPage";
 import { handleLogoutButtonClick } from "../userEvents/handleLogoutButtonClick";
 import { sendingMessage } from "../message/sendingMessage";

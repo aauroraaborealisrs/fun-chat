@@ -1,7 +1,6 @@
 import { ServerResponse } from "../utilities/interfaces";
 import { renderMessage } from "./renderMessage";
 
-
 export function createMessage(response: ServerResponse) {
   if (response.payload && response.payload.message) {
     const {

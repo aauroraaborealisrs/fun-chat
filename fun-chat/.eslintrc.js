@@ -29,6 +29,6 @@ module.exports = {
   plugins: ["prettier", "import", "@typescript-eslint"],
   rules: {
     "no-console": 0,
-    noInlineConfig: "error",
+    noInlineConfig: "error", //я хз там в требованиях написано true такой штуки нет
   },
 };

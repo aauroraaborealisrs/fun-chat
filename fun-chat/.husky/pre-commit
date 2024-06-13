@@ -1,5 +1,10 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
 
-cd fun-chat
-npm run lint && npm run format
+npm run ci:format
+
+if [ $? -ne 0 ]; then
+  echo "Prettier found unformatted files. Please format them before committing."
+  exit 1
+fi
+
+npm run lint

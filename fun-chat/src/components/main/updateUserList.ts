@@ -1,5 +1,3 @@
-
-
 export function updateUserListBasedOnSearch(
   userSearchElement: HTMLElement | null,
   userListItems: NodeListOf<Element>,
