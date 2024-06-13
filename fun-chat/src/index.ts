@@ -38,7 +38,6 @@ if (!tabId) {
   tabId = generateUniqueId();
   localStorage.setItem("tabId", tabId);
 } else {
-  console.log("Вкладка была продублирована");
   renderPage(Pages.MAIN);
   sessionStorage.setItem("dublicate", "true");
 }

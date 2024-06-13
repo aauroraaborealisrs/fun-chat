@@ -23,12 +23,9 @@ export default function nameClick() {
               "offline-text",
             );
 
-            if (isActive) {
-              dialogueStatusElement.classList.add("online-text");
-            } else {
-              dialogueStatusElement.classList.add("offline-text");
-            }
-
+            dialogueStatusElement.classList.add(
+              isActive ? "online-text" : "offline-text",
+            );
             dialogueStatusElement.textContent = isActive ? "online" : "offline";
           }
 
