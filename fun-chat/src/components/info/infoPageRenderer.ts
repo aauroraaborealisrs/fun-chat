@@ -1,13 +1,11 @@
 import renderPage from "../../index";
+import createElement from "../utilities/createElement";
 
 export default function infoPageRenderer() {
   const text = document.createElement("div");
   text.textContent = "Допустим тут какой-то нормальный текст";
 
-  const mainButton = document.createElement("button");
-  mainButton.className = "infoButton";
-
-  mainButton.textContent = "To Main";
+  const mainButton = createElement("button", "infoButton", "To Main") as HTMLButtonElement;
 
   function checkLoginAndEnableButton() {
     const login = sessionStorage.getItem("login");
@@ -26,9 +24,7 @@ export default function infoPageRenderer() {
 
   document.body.appendChild(mainButton);
 
-  const loginButton = document.createElement("button");
-  loginButton.className = "infoButton";
-  loginButton.textContent = "To Login";
+  const loginButton = createElement("button", "infoButton", "To Login") as HTMLButtonElement;
   loginButton.addEventListener("click", () => {
     renderPage("login");
   });

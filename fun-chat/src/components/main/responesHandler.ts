@@ -1,4 +1,4 @@
-import { renderMessage } from "./createMessage";
+import { renderMessage } from "../message/renderMessage";
 import { MessagePayload } from "../utilities/interfaces";
 
 export function handleMessages(response: {

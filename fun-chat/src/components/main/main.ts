@@ -1,5 +1,6 @@
 import mainRenderer from "./mainRanderer";
-import sendMessage from "./socket";
+import sendMessage from "../ws/socket";
+import "../../css/main.css";
 
 export default class MainPage {
   constructor() {

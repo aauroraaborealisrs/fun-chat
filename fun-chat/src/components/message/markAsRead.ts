@@ -1,4 +1,4 @@
-import sendRequest from "./socket";
+import sendRequest from "../ws/socket";
 import { Message, ServerResponse } from "../utilities/interfaces";
 
 export function markAsRead(messages: ServerResponse[]) {

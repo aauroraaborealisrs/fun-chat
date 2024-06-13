@@ -1,5 +1,5 @@
 import { User } from "../utilities/interfaces";
-import sendRequest from "./socket";
+import sendRequest from "../ws/socket";
 
 function createRequest(user: User) {
   return {

@@ -1,16 +1,13 @@
 import renderPage from "../../index";
+import createElement from "../utilities/createElement";
 
 export default function loginFormRenderer() {
   const form = document.createElement("form");
   form.id = "login-form";
 
-  const welcomeMessage = document.createElement("p");
-  welcomeMessage.className = "login__header";
-  welcomeMessage.textContent = "Authentication";
-  form.appendChild(welcomeMessage);
+  const welcomeMessage = createElement("p", "login__header", "Authentication",  form);
 
-  const loginInput = document.createElement("input");
-  loginInput.className = "login__input";
+  const loginInput = createElement("input",  "login__input") as HTMLInputElement;
   loginInput.type = "text";
   loginInput.id = "login";
   loginInput.name = "login";
@@ -18,13 +15,11 @@ export default function loginFormRenderer() {
   loginInput.required = true;
   form.appendChild(loginInput);
 
-  const loginError = document.createElement("span");
+  const loginError = createElement("span",  "error-message");
   loginError.id = "loginError";
-  loginError.className = "error-message";
   form.appendChild(loginError);
 
-  const password = document.createElement("input");
-  password.className = "login__input";
+  const password = createElement("input",  "login__input") as HTMLInputElement;
   password.type = "text";
   password.id = "password";
   password.name = "password";
@@ -32,24 +27,17 @@ export default function loginFormRenderer() {
   password.required = true;
   form.appendChild(password);
 
-  const passwordError = document.createElement("span");
+  const passwordError = createElement("span",  "error-message");
   passwordError.id = "passwordError";
-  passwordError.className = "error-message";
   form.appendChild(passwordError);
 
-  const submitButton = document.createElement("button");
-  submitButton.className = "button__main";
+  const submitButton = createElement("button", "button__main", "Login", form) as HTMLButtonElement;
   submitButton.id = "submit-button";
   submitButton.type = "submit";
-  submitButton.textContent = "Login";
   submitButton.disabled = true;
-  form.appendChild(submitButton);
 
-  const infoButton = document.createElement("button");
-  infoButton.className = "button__main info-button";
+  const infoButton = createElement("button", "button__main info-button", "Info", form) as HTMLButtonElement;
   infoButton.type = "submit";
-  infoButton.textContent = "Info";
-  form.appendChild(infoButton);
 
   infoButton.addEventListener("click", (event) => {
     event.preventDefault();

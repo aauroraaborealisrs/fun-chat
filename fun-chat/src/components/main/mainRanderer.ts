@@ -1,11 +1,9 @@
-import "./main.css";
 import renderPage from "../../index";
-import {
-  handleLogoutButtonClick,
-  setupMessagesCanvasHandlers,
-} from "./userEventsHandler";
-import { sendingMessage, updateUserListBasedOnSearch } from "./mainUtilities";
+import {updateUserListBasedOnSearch } from "./updateUserList";
 import createMainPage from "./createMainPage";
+import { handleLogoutButtonClick } from "../userEvents/handleLogoutButtonClick";
+import { sendingMessage } from "../message/sendingMessage";
+import { setupMessagesCanvasHandlers } from "../userEvents/setupMessagesCanvasHandlers";
 
 export default function mainRenderer() {
   const htmlContent = createMainPage();

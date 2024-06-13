@@ -1,11 +1,12 @@
 import renderPage from "../../index";
-import nameClick from "./nameClick";
-import { createMessage, renderMessage } from "./createMessage";
+import nameClick from "../userEvents/nameClick";
+import { createMessage } from "../message/createMessage";
+import { renderMessage } from "../message/renderMessage";
 import {
   renderActiveUserList,
   renderInactiveUserList,
-} from "./userListRenderer";
-import { markAsRead } from "./markAsRead";
+} from "../main/userListRenderer";
+import { markAsRead } from "../message/markAsRead";
 import { showModal, hideModal } from "../modal/modal";
 import { MessagePayload, ServerResponse } from "../utilities/interfaces";
 import { markArReadMessages, showEmpty } from "../main/responesHandler";
@@ -103,6 +104,8 @@ function responsesAnswers() {
     }
   };
 }
+
+responsesAnswers();
 
 function handleSocketClose(event: CloseEvent) {
   if (event.wasClean) {

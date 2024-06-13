@@ -1,4 +1,4 @@
-import sendRequest from "../main/socket";
+import sendRequest from "../ws/socket";
 
 export default function createUser(login: string, password: string) {
   const id = crypto.randomUUID();

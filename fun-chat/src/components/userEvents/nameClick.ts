@@ -1,4 +1,4 @@
-import sendRequest from "./socket";
+import sendRequest from "../ws/socket";
 
 export default function nameClick() {
   const listItems = document.querySelectorAll(".user_li");

@@ -149,7 +149,7 @@ li {
 .footer-logo {
   width: 30px;
   height: 30px;
-  background-image: url(../view/img/rs.webp);
+  background-image: url(../components/view/img/rs.webp);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

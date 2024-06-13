@@ -1,7 +1,7 @@
-import "./login.css";
 import loginFormRenderer from "./authPageRender";
 import { checkInputs } from "./validation/checkInputs";
 import createUser from "../utilities/createUser";
+import "../../css/login.css";
 
 class LoginForm {
   constructor() {

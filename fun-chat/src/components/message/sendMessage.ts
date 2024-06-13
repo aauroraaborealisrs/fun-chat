@@ -1,4 +1,4 @@
-import sendRequest from "./socket";
+import sendRequest from "../ws/socket";
 export default function sendMessage(name: string, messsage: string) {
   const dialogueMessageElement = document.querySelector(
     ".dialogue-message",
